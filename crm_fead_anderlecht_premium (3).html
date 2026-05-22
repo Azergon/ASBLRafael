@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rafael CRM FEAD — Anderlecht</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --panel:#ffffff;
+      --panel-2:#f8fafc;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --primary:#2563eb;
+      --primary-2:#1e40af;
+      --primary-soft:#dbeafe;
+      --success:#16a34a;
+      --success-soft:#dcfce7;
+      --warning:#f59e0b;
+      --warning-soft:#fef3c7;
+      --danger:#dc2626;
+      --danger-soft:#fee2e2;
+      --purple:#7c3aed;
+      --purple-soft:#ede9fe;
+      --shadow:0 14px 42px rgba(15,23,42,.08);
+      --radius:18px;
+      --radius-sm:12px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-size:14px;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:radial-gradient(circle at top left,#e0f2fe 0,#f8fafc 32%,#eef2ff 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+    .app{display:block;min-height:100vh}
+    aside{display:none}
+    .top-nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:9px 16px;box-shadow:0 8px 26px rgba(15,23,42,.07)}
+    .top-nav-inner{display:flex;align-items:center;gap:10px;white-space:nowrap;max-width:1380px;margin:0 auto}.nav-menu{display:flex;align-items:center;gap:6px;overflow:auto;flex:1;min-width:0}
+    .top-nav .nav-btn{border:1px solid transparent;background:transparent;color:#475569;text-align:center;padding:8px 12px;border-radius:999px;font-size:11.7px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s;flex:0 0 auto}
+    .top-nav .nav-btn:hover,.top-nav .nav-btn.active{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;transform:translateY(-1px)}
+    main{padding:18px;overflow:hidden;max-width:1380px;margin:0 auto}.topbar{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-bottom:12px;width:100%;min-height:34px}.title{display:none}.title h2{font-size:24px;letter-spacing:-.04em;margin:0}.title p{margin:3px 0 0;color:var(--muted);font-size:12.6px}.actions{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:flex-end;min-width:0}.export-actions{margin-left:auto;display:flex;gap:7px;align-items:center;justify-content:flex-end}.file-icon-btn{width:34px;height:34px;padding:0;border:1px solid var(--line);border-radius:10px;background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px rgba(15,23,42,.07);transition:.2s}.file-icon-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.11)}.file-icon-btn img{width:21px;height:21px;object-fit:contain;display:block}.file-icon-btn .json-mark{width:21px;height:21px;border-radius:6px;background:#111827;color:#fff;font-size:8px;font-weight:900;display:grid;place-items:center;letter-spacing:.02em}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.btn{border:0;border-radius:11px;padding:8px 10px;font-size:12px;font-weight:750;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(15,23,42,.07);transition:.2s;background:#fff;color:var(--text);border:1px solid var(--line)}.btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.11)}.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-color:transparent}.btn.success{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border-color:transparent}.btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;border-color:transparent}.btn.ghost{background:transparent;box-shadow:none}.btn.sm{padding:6px 8px;border-radius:9px;font-size:10.8px}
+    .view{display:none;animation:fade .22s ease}.view.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .grid{display:grid;gap:11px}.grid.kpi{grid-template-columns:repeat(4,minmax(0,1fr))}.dashboard-kpi,.distribution-kpi,.compliance-kpi{grid-template-columns:repeat(4,minmax(120px,1fr))!important}.dashboard-kpi .kpi-card,.distribution-kpi .kpi-card,.compliance-kpi .kpi-card{min-height:88px;padding:12px}.dashboard-kpi .kpi-card strong,.distribution-kpi .kpi-card strong,.compliance-kpi .kpi-card strong{font-size:22px}.dashboard-kpi .kpi-card label,.distribution-kpi .kpi-card label,.compliance-kpi .kpi-card label{font-size:10.8px}.dashboard-kpi .kpi-card small,.distribution-kpi .kpi-card small,.compliance-kpi .kpi-card small{font-size:10.5px}.dashboard-kpi .open-section{margin-top:6px;padding:4px 7px;font-size:10px}.grid.two{grid-template-columns:1.2fr .8fr}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.product-detail-head{display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;margin-bottom:10px}.product-detail-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.product-detail-kpi{grid-template-columns:repeat(4,minmax(100px,1fr))!important}.product-detail-kpi .card{min-height:78px}.product-detail-kpi h2{margin:8px 0 0;font-size:21px;letter-spacing:-.03em}.card{background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border:1px solid rgba(226,232,240,.9);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}.distribution-full-card{width:calc(100% - 22px);margin:11px 11px 0}.card.compact{padding:12px}.partner-card,.beneficiary-card{cursor:pointer;transition:.2s}.partner-card{position:relative;min-height:118px;padding-top:12px!important}.partner-card:hover,.beneficiary-card:hover{transform:translateY(-2px);box-shadow:0 18px 48px rgba(15,23,42,.13);border-color:#bfdbfe}.partner-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.partner-status{position:static;flex:0 0 auto}.partner-card h3{margin:0!important;font-size:14px;line-height:1.15;letter-spacing:-.02em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.partner-meta{color:var(--muted);font-size:12px;line-height:1.45;margin:8px 0 0}.partner-note{font-size:12px;line-height:1.45;margin:0;color:#334155}.partner-form,.beneficiary-form{display:block;padding:0 10px}.partner-form .form-field,.beneficiary-form .form-field{margin:0 0 10px 0;width:100%}.partner-form input,.partner-form select,.partner-form textarea,.beneficiary-form input,.beneficiary-form select,.beneficiary-form textarea{width:100%;min-height:38px}.partner-form textarea,.beneficiary-form textarea{min-height:84px}.beneficiary-card{position:relative;min-height:72px!important;padding:10px 10px!important;display:flex;align-items:center;justify-content:space-between;gap:8px}.beneficiary-status{position:absolute;top:6px;right:8px}.beneficiary-card h3{margin:0!important;font-size:13.5px;line-height:1.05;letter-spacing:-.02em;padding-right:78px;max-width:58%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.beneficiary-meta,.beneficiary-detail-line,.beneficiary-note{display:none}.household-line{position:static;margin-left:auto;margin-right:0;display:flex;gap:5px;flex-wrap:nowrap;justify-content:flex-end;align-items:center;padding-top:16px}.household-line .pill{padding:3px 6px;font-size:9.8px}.kpi-card{position:relative;overflow:hidden;min-height:104px}.kpi-card:before{content:"";position:absolute;right:-42px;top:-48px;width:118px;height:118px;border-radius:50%;background:var(--primary-soft)}.kpi-card.green:before{background:var(--success-soft)}.kpi-card.orange:before{background:var(--warning-soft)}.kpi-card.red:before{background:var(--danger-soft)}.kpi-card.purple:before{background:var(--purple-soft)}.kpi-card label{display:block;color:var(--muted);font-size:11.7px;margin-top:6px}.kpi-card strong{display:block;font-size:24px;letter-spacing:-.04em;margin-top:2px}.kpi-card small{color:var(--muted)}.dashboard-link{width:100%;text-align:left;border:1px solid rgba(226,232,240,.9);cursor:pointer}.dashboard-link:hover{transform:translateY(-3px);box-shadow:0 30px 80px rgba(15,23,42,.16)}.open-section{position:relative;display:inline-flex;margin-top:8px;padding:5px 8px;border-radius:999px;background:#f8fafc;color:#1d4ed8;font-size:10.8px;font-weight:800}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:13px 0 8px}.section-title h3{font-size:17px;letter-spacing:-.03em;margin:0}.section-title p{margin:2px 0 0;color:var(--muted);font-size:11.7px}.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.search,.select,input,select,textarea{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff;color:var(--text);outline:none;font:inherit;font-size:12px}.search:focus,input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(59,130,246,.12)}textarea{min-height:74px;resize:vertical}.table-wrap{overflow:auto;border-radius:14px;border:1px solid var(--line);background:#fff}table{width:100%;border-collapse:separate;border-spacing:0;min-width:820px}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);font-size:11.7px;vertical-align:middle}th{position:sticky;top:0;background:#f8fafc;color:#334155;text-transform:uppercase;font-size:9.9px;letter-spacing:.055em;z-index:1}tr:hover td{background:#f8fafc}.future-row td{background:#fffbeb!important}.future-row:hover td{background:#fef3c7!important}td.num{text-align:right;font-variant-numeric:tabular-nums}.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 7px;border-radius:999px;font-size:10.8px;font-weight:750;white-space:nowrap;line-height:1.05}.pill.blue{background:var(--primary-soft);color:#1d4ed8}.pill.green{background:var(--success-soft);color:#15803d}.pill.orange{background:var(--warning-soft);color:#b45309}.pill.red{background:var(--danger-soft);color:#b91c1c}.pill.purple{background:var(--purple-soft);color:#6d28d9}.pill.gray{background:#f1f5f9;color:#475569}.progress{height:7px;border-radius:999px;background:#e2e8f0;overflow:hidden}.progress span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#22c55e,#2563eb)}
+    .insight{display:block;gap:8px;padding:10px;border-radius:13px;background:#f8fafc;border:1px solid var(--line);margin-bottom:7px}.insight .emoji{font-size:22px}.insight b{display:block;font-size:11.7px}.insight p{margin:2px 0 0;color:var(--muted);font-size:10.8px;line-height:1.35}.dashboard-stock-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:11px;width:100%!important;max-width:100%!important;align-items:stretch}.dashboard-stock-row .card{width:100%;min-width:0}.chart-bars{display:grid;gap:7px}.bar-row{display:grid;grid-template-columns:118px 1fr 58px;gap:8px;align-items:center;font-size:10.8px}.bar{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#2563eb);border-radius:999px}.mobile-head{display:none}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal-backdrop.show{display:flex}.modal{width:min(900px,96vw);max-height:92vh;overflow:auto;background:#fff;border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.7)}.modal header{position:sticky;top:0;background:#fff;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}.modal header h3{margin:0;font-size:17px;letter-spacing:-.03em}.modal .body{padding:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-form-wide{display:block;padding:0 10px}.product-form-wide .form-field{margin:0 0 10px 0;width:100%}.product-form-wide input,.product-form-wide select,.product-form-wide textarea{width:100%;min-height:38px}.product-form-wide textarea{min-height:86px}.distribution-product-row{border:1px solid var(--line);border-radius:14px;background:#f8fafc;padding:10px;margin-bottom:10px;font-size:80%}.distribution-product-row .form-field{margin-bottom:0}.distribution-product-row .form-field label{font-size:8.8px}.distribution-product-row input,.distribution-product-row select{font-size:10.2px;min-height:34px;padding:7px 8px}.distribution-line{display:grid;grid-template-columns:minmax(170px,1fr) minmax(76px,92px) minmax(86px,96px) minmax(108px,118px) 34px;gap:7px;align-items:end}.distribution-readonly{background:#fff!important;color:#0f172a!important;font-weight:800;text-align:right}.distribution-readonly[readonly]{cursor:default}.product-info-grid{display:block;padding:0 10px;margin-top:11px}.product-info-grid .form-field{margin:0 0 10px 0;width:100%}.product-info-grid input,.product-info-grid select,.product-info-grid textarea{width:100%;min-height:38px;background:#f8fafc}.product-info-grid textarea{min-height:78px}.qty-stock-line{display:grid;grid-template-columns:minmax(96px,.72fr) minmax(118px,118px) 34px;gap:7px;align-items:end}.stock-badge{height:34px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px 7px;font-size:8.8px;color:var(--muted);font-weight:800;text-align:right;display:flex;flex-direction:column;justify-content:center}.stock-badge strong{display:block;color:#0f172a;font-size:11.2px;line-height:1.05}.distribution-row-actions{display:flex;justify-content:flex-end;align-items:end}.icon-remove-product{width:34px;height:34px;padding:0;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;line-height:1}.form-accordion{border:1px solid var(--line);border-radius:16px;background:#fff;margin-bottom:12px;overflow:hidden}.form-accordion summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;font-weight:850;font-size:12.2px;color:#0f172a;background:#f8fafc}.form-accordion summary::-webkit-details-marker{display:none}.form-accordion summary:after{content:'›';font-size:18px;color:#2563eb;transition:.2s}.form-accordion[open] summary:after{transform:rotate(90deg)}.form-accordion-body{padding:12px 14px}.form-divider-title{font-size:12px;font-weight:900;color:#475569;margin:0 0 10px}.inline-muted{font-size:11px;color:var(--muted);margin-top:-4px;margin-bottom:10px}.form-field label{display:block;font-size:10.8px;font-weight:800;color:#475569;margin-bottom:4px}.full{grid-column:1/-1}.drawer-report{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:11px;line-height:1.45;font-size:12px}.toast{position:fixed;right:18px;bottom:18px;background:#0f172a;color:#fff;padding:10px 12px;border-radius:12px;font-size:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);opacity:0;transform:translateY(12px);transition:.25s;z-index:80}.toast.show{opacity:1;transform:none}.login-screen{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at top left,#dbeafe 0,#f8fafc 38%,#eef2ff 100%);display:flex;align-items:center;justify-content:center;padding:18px}.login-screen.hidden{display:none}.login-card{width:min(420px,94vw);background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.95);border-radius:24px;box-shadow:0 30px 90px rgba(15,23,42,.18);padding:22px}.login-card h1{margin:0;font-size:22px;letter-spacing:-.05em}.login-card p{margin:6px 0 18px;color:var(--muted);font-size:12.5px;line-height:1.45}.login-form{display:grid;gap:10px}.login-form label{display:block;font-size:10.8px;font-weight:850;color:#475569;margin-bottom:4px}.login-form input{width:100%;height:42px}.login-error{display:none;background:var(--danger-soft);color:#991b1b;border:1px solid #fecaca;border-radius:12px;padding:9px 10px;font-size:12px;font-weight:750}.login-error.show{display:block}.login-footer{margin-top:14px;color:var(--muted);font-size:10.8px;text-align:center}.auth-bar{display:flex;align-items:center;gap:8px;margin-left:0;color:var(--muted);font-size:11px;font-weight:800;flex:0 0 auto}.auth-user{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#334155}.mini-popup-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.38);display:none;align-items:center;justify-content:center;z-index:90;padding:16px}.mini-popup-backdrop.show{display:flex}.mini-popup{width:min(420px,94vw);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 28px 80px rgba(15,23,42,.28);padding:16px}.mini-popup h4{margin:0 0 6px;font-size:16px;letter-spacing:-.03em}.mini-popup p{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.4}.mini-popup input{width:100%;height:40px}.mini-popup-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    @media(max-width:1050px){.top-nav-inner{gap:8px}.nav-menu{flex:1}.auth-bar{margin-left:auto}.dashboard-stock-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;width:100%!important;max-width:100%!important}.export-actions{margin-left:0}.actions{min-width:0;width:100%;justify-content:flex-end}.topbar{flex-direction:column;align-items:stretch}.mobile-head{display:flex;justify-content:space-between;align-items:center}.grid.kpi:not(.dashboard-kpi):not(.distribution-kpi):not(.compliance-kpi),.grid.three:not(.product-detail-kpi),.grid.two{grid-template-columns:1fr}.product-detail-head{flex-direction:row;justify-content:flex-end}.product-detail-actions{justify-content:flex-end}.product-detail-kpi{grid-template-columns:repeat(4,minmax(78px,1fr))!important;gap:8px}.product-detail-kpi .card{padding:10px;min-height:70px}.product-detail-kpi h2{font-size:16px;margin-top:6px}.topbar{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}main{padding:12px}.title h2{font-size:21px}.top-nav{padding:8px}.top-nav .nav-btn{font-size:10.8px;padding:7px 10px}.card{padding:12px}.kpi-card{min-height:92px}th,td{padding:8px 9px}.dashboard-kpi,.distribution-kpi,.compliance-kpi{grid-template-columns:repeat(4,minmax(105px,1fr))!important;gap:8px}.dashboard-kpi .kpi-card,.distribution-kpi .kpi-card,.compliance-kpi .kpi-card{min-height:76px;padding:10px}.dashboard-kpi .kpi-card strong,.distribution-kpi .kpi-card strong,.compliance-kpi .kpi-card strong{font-size:20px}.dashboard-kpi .kpi-card label,.distribution-kpi .kpi-card label,.compliance-kpi .kpi-card label{font-size:10.2px}.dashboard-kpi .kpi-card small,.distribution-kpi .kpi-card small,.compliance-kpi .kpi-card small{font-size:9.8px}.dashboard-kpi .open-section{font-size:9.4px;padding:3px 6px;margin-top:5px}}
+    @media(max-width:640px){.distribution-line{grid-template-columns:minmax(112px,1fr) minmax(50px,58px) minmax(70px,76px) minmax(78px,86px) 31px;gap:5px}.distribution-readonly{font-size:8.8px!important;padding:6px 5px!important}.qty-stock-line{grid-template-columns:minmax(74px,.65fr) minmax(98px,98px) 31px;gap:5px}.stock-badge{height:32px;font-size:8px;padding:3px 5px}.stock-badge strong{font-size:10px}.icon-remove-product{width:31px;height:32px;font-size:13px}.distribution-product-row input,.distribution-product-row select{font-size:9.5px;min-height:32px}.distribution-full-card{width:calc(100% - 12px);margin:8px 6px 0}body{font-size:13px}.top-nav{padding:7px 8px}.top-nav-inner{align-items:flex-start;gap:6px}.nav-menu{gap:5px;padding-bottom:3px}.top-nav .nav-btn{font-size:10px;padding:6px 8px}.auth-bar{gap:5px;font-size:10px}.auth-user{padding:5px 7px;max-width:86px;overflow:hidden;text-overflow:ellipsis}.btn.sm{font-size:10px;padding:5px 7px}main{padding:9px;max-width:100vw;overflow:hidden}.topbar{min-height:28px;margin-bottom:8px}.file-icon-btn{width:31px;height:31px}.section-title{align-items:flex-start;flex-direction:column;gap:7px;margin:10px 0 7px}.section-title h3{font-size:15px}.section-title p{font-size:10.5px}.toolbar{width:100%;display:grid;grid-template-columns:1fr;gap:6px}.toolbar .btn,.toolbar .search,.toolbar select{width:100%;justify-content:center}.dashboard-kpi{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px;width:100%;max-width:100%}.dashboard-kpi .kpi-card{min-width:0;width:100%;min-height:72px;padding:9px}.dashboard-kpi .kpi-card strong{font-size:18px}.dashboard-kpi .kpi-card label{font-size:9.8px}.dashboard-kpi .open-section{font-size:8.8px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.compliance-kpi{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px;width:100%;max-width:100%}.dashboard-stock-row{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}.grid.three,.grid.two{grid-template-columns:1fr!important}.card{padding:10px;border-radius:14px}.bar-row{grid-template-columns:92px 1fr 42px;gap:6px;font-size:10px}.table-wrap{width:100%;overflow-x:auto;border-radius:12px}table{min-width:720px}th,td{font-size:10.6px;padding:7px 8px}.modal{width:98vw;max-height:94vh;border-radius:16px}.modal header{padding:10px 12px}.modal .body{padding:10px}.product-detail-kpi{grid-template-columns:repeat(2,minmax(0,1fr))!important}.product-detail-actions{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.product-detail-actions .btn{justify-content:center}.partner-card,.beneficiary-card{min-height:auto!important}.beneficiary-card h3{max-width:48%;font-size:12.5px}.household-line .pill{font-size:8.8px;padding:3px 5px}.login-card{padding:18px;border-radius:20px}}
+    @media print{.top-nav,.actions,.toolbar,.modal-backdrop,.toast{display:none!important}.app{display:block}main{padding:0}.card{box-shadow:none;border:1px solid #ddd}.view{display:block!important;page-break-after:always}}
+  </style>
+</head>
+<body>
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <h1>Rafael FEAD CRM</h1>
+      <p>Connexion sécurisée à la plateforme de stock, distributions, bénéficiaires et conformité.</p>
+      <form class="login-form" id="loginForm">
+        <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
+        <div><label>Username</label><input id="loginUsername" autocomplete="username" placeholder="admin, bernard ou achraf" required></div>
+        <div><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Mot de passe" required></div>
+        <button class="btn primary" type="submit" style="width:100%;justify-content:center;margin-top:4px">Se connecter</button>
+      </form>
+      <div class="login-footer">Accès réservé aux utilisateurs autorisés.</div>
+    </div>
+  </div>
+  <div class="app" id="appRoot" style="display:none">
+    <div class="top-nav"><div class="top-nav-inner"><nav id="nav" class="nav-menu"></nav><div class="auth-bar"><span class="auth-user" id="authUserLabel">Utilisateur</span><button class="btn sm" onclick="logoutUser()">Déconnexion</button></div></div></div>
+    <main>
+      <div class="topbar">
+        <div class="actions" id="contextActions"></div>
+      </div>
+
+      <section id="dashboard" class="view active">
+        <div class="grid kpi dashboard-kpi" id="kpis"></div>
+        <div class="dashboard-stock-row" style="margin-top:11px">
+          <div class="card">
+            <div class="section-title"><div><h3>Top 10 produits en stock</h3><p>Lecture rapide par volume disponible.</p></div><button class="btn sm" onclick="showView('stock')">Voir Stock</button></div>
+            <div class="chart-bars" id="topBars"></div>
+          </div>
+          <div class="card">
+            <div class="section-title"><div><h3>Top 10 produits stock faible</h3><p>Lecture rapide des produits les moins disponibles.</p></div><button class="btn sm" onclick="showView('stock')">Voir Stock</button></div>
+            <div class="chart-bars" id="lowBars"></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:11px">
+          <div class="section-title"><div><h3>Distributions prévues</h3><p>Toutes les distributions planifiées avec une date future.</p></div><button class="btn sm" onclick="showView('distributions')">Voir distributions</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Destination</th><th>Bénéficiaires</th><th>Produits prévus</th><th>Unités prévues</th><th>Actions</th></tr></thead><tbody id="futureDistributions"></tbody></table></div>
+        </div>
+        <div class="card" style="margin-top:11px">
+          <div class="section-title"><div><h3>Derniers mouvements</h3><p>Entrées, sorties, pertes et corrections des 10 derniers jours.</p></div><div class="toolbar"><button class="btn sm" onclick="showView('distributions')">Voir distributions</button><button class="btn sm" onclick="showView('stock')">Voir stock</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Produit</th><th>Quantité</th><th>Origine / Destination</th><th>Réf.</th><th>Actions</th></tr></thead><tbody id="recentMovements"></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="stock" class="view">
+        <div class="section-title"><div><h3>Stock</h3><p>Stock et inventaire des produits suivis avec quantités reçues, distribuées, pertes et statut.</p></div><div class="toolbar"><button class="btn primary sm" onclick="openProductModal()">Ajouter un produit</button><input class="search" id="stockSearch" placeholder="Rechercher produit…" oninput="renderStock()"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Produit</th><th>Catégorie</th><th>Unité</th><th>Stock actuel</th><th>Reçu</th><th>Distribué</th><th>Pertes</th><th>Actions</th></tr></thead><tbody id="stockRows"></tbody></table></div>
+      </section>
+
+      <section id="distributions" class="view"><div class="card distribution-full-card">
+          <div class="section-title"><div><h3>Sessions de distribution</h3><p>Regroupement par date, lieu et nombre de bénéficiaires.</p></div><div class="toolbar"><button class="btn primary sm" onclick="openDistributionModal()">Ajouter une distribution</button><input class="search" id="distributionSearch" placeholder="Rechercher distribution…" oninput="renderDistributions()"></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Destination</th><th>Bénéficiaires</th><th>Produits distribués</th><th>Unités sorties</th><th>Actions</th></tr></thead><tbody id="distRows"></tbody></table></div>
+        </div>
+      </section>
+      <section id="partenaires" class="view">
+        <div class="section-title"><div><h3>Partenaires</h3><p>Sources, magasins, associations et contacts opérationnels.</p></div><div class="toolbar"><button class="btn primary sm" onclick="openPartnerModal()">Ajouter partenaire</button><input class="search" id="partnerSearch" placeholder="Rechercher partenaire…" oninput="renderPartners()"></div></div>
+        <div class="grid three" id="partnerCards"></div>
+      </section>
+
+      <section id="beneficiaires" class="view">
+        <div class="section-title"><div><h3>Bénéficiaires</h3><p>Fiches personnes et composition de ménage.</p></div><div class="toolbar"><button class="btn primary sm" onclick="openBeneficiaryModal()">Ajouter bénéficiaire</button><input class="search" id="beneficiarySearch" placeholder="Rechercher bénéficiaire…" oninput="renderBeneficiaries()"></div></div>
+        <div class="grid three" id="beneficiaryCards"></div>
+      </section>
+
+      <section id="conformite" class="view">
+        <div class="grid kpi compliance-kpi" id="complianceKpis"></div>
+        <div class="card" style="margin-top:11px">
+          <div class="section-title"><div><h3>Checklist de contrôle</h3><p>Points essentiels inspirés de la comptabilité matière FEAD.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Sujet</th><th>Statut</th><th>Responsable</th><th>Dernière vérification</th><th>Action</th></tr></thead><tbody id="checkRows"></tbody></table></div>
+        </div>
+      </section>
+      <section id="logs" class="view">
+        <div class="card">
+          <div class="section-title"><div><h3>Log plateforme</h3><p>Historique complet de tout ce qui s’est passé dans la plateforme.</p></div><div class="toolbar"><input class="search" id="logSearch" placeholder="Rechercher log…" oninput="renderLogs()"><select id="logFilter" onchange="renderLogs()"><option value="all">Tous</option><option value="Stock">Stock</option><option value="Distribution">Distribution</option><option value="Rapport">Rapport</option><option value="Export">Export</option><option value="Conformité">Conformité</option><option value="Système">Système</option></select><button class="btn sm" onclick="clearLogs()">Vider</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Date & heure</th><th>Catégorie</th><th>Action</th><th>Détail</th><th>Utilisateur</th><th>Section</th></tr></thead><tbody id="logRows"></tbody></table></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal"><header><h3 id="modalTitle">Modal</h3><button class="btn ghost" onclick="closeModal()">✕</button></header><div class="body" id="modalBody"></div></div></div>
+  <div class="mini-popup-backdrop" id="categoryPopup">
+    <div class="mini-popup">
+      <h4>Nouvelle catégorie</h4>
+      <p>Écris le nom de la catégorie à ajouter à la liste.</p>
+      <input id="categoryPopupInput" placeholder="Ex. Produits Ramadan, kits scolaires..." />
+      <div class="mini-popup-actions">
+        <button class="btn" onclick="cancelCategoryPopup()">Annuler</button>
+        <button class="btn primary" onclick="confirmCategoryPopup()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast">Sauvegardé</div>
+
+  <script>
+    const AUTH_USERS = {
+      admin:'admin',
+      bernard:'Bernard26$',
+      achraf:'Achraf26$'
+    };
+    function initAuth(){
+      const sessionUser=localStorage.getItem('rafael-fead-auth-user');
+      const loginScreen=document.getElementById('loginScreen');
+      const appRoot=document.getElementById('appRoot');
+      if(sessionUser && AUTH_USERS[sessionUser]){
+        loginScreen.classList.add('hidden');
+        appRoot.style.display='block';
+        document.getElementById('authUserLabel').textContent=sessionUser;
+        return;
+      }
+      loginScreen.classList.remove('hidden');
+      appRoot.style.display='none';
+    }
+    function loginUser(username,password){
+      const u=String(username||'').trim();
+      const p=String(password||'');
+      if(AUTH_USERS[u] && AUTH_USERS[u]===p){
+        localStorage.setItem('rafael-fead-auth-user',u);
+        document.getElementById('loginError').classList.remove('show');
+        initAuth();
+        addLog('Système','Connexion',`Utilisateur connecté : ${u}`,'Dashboard',u);
+        return true;
+      }
+      document.getElementById('loginError').classList.add('show');
+      return false;
+    }
+    function logoutUser(){
+      const u=localStorage.getItem('rafael-fead-auth-user')||'Utilisateur';
+      localStorage.removeItem('rafael-fead-auth-user');
+      addLog('Système','Déconnexion',`Utilisateur déconnecté : ${u}`,'Dashboard',u);
+      initAuth();
+    }
+    document.addEventListener('DOMContentLoaded',()=>{
+      const form=document.getElementById('loginForm');
+      if(form){
+        form.addEventListener('submit',e=>{
+          e.preventDefault();
+          loginUser(document.getElementById('loginUsername').value, document.getElementById('loginPassword').value);
+        });
+      }
+      initAuth();
+    });
+    const org = {name:'Resto du Cœur Mobile Bruxelles', commune:'Anderlecht', beneficiaries:3500, forecast2027:4000, code:'AND-2026', address:'Anderlecht, Bruxelles'};
+    const navItems = [
+      ['dashboard','Dashboard','Vue globale des stocks, alertes et dernières opérations.'],
+      ['stock','Stock','Stock et inventaire des produits suivis.'],
+      ['distributions','Distributions','Sessions par date et bénéficiaires.'],
+      ['partenaires','Partenaires','Sources, magasins et banque alimentaire.'],
+      ['beneficiaires','Bénéficiaires','Fiches bénéficiaires, ménage, adresse et contact.'],
+      ['conformite','Conformité','Checklist et niveau de préparation.'],
+      ['logs','Log','Historique complet des actions effectuées sur la plateforme.']
+    ];
+    const dashboardCards = {
+      distributions: 'Distributions',
+      conformite: 'Conformité',
+      beneficiaires: 'Bénéficiaires',
+      partenaires: 'Partenaires'
+    };
+    const defaultCategories = [
+      'Produits secs',
+      'Conserves',
+      'Féculents',
+      'Céréales et petit-déjeuner',
+      'Lait et boissons',
+      'Produits frais',
+      'Fruits et légumes',
+      'Viandes et poissons',
+      'Plats préparés',
+      'Épicerie sucrée',
+      'Épicerie salée',
+      'Huiles et condiments',
+      'Produits bébé alimentaires',
+      'Produits surgelés',
+      'Hygiène',
+      'Hygiène femme',
+      'Hygiène homme',
+      'Hygiène enfant',
+      'Hygiène bébé',
+      'Couches et protections',
+      'Soins corporels',
+      'Produits ménagers',
+      'Eau et boissons',
+      'Produits d’entretien',
+      'Lessive et vaisselle',
+      'Papier toilette et mouchoirs',
+      'Rasage et soins homme',
+      'Protection féminine',
+      'Kits hygiène complets',
+      'Matériel de distribution',
+      'Autres / à définir'
+    ];
+    let foodProducts = [];
+    let hygieneProducts = [];
+    function getAllProducts(){ return [...foodProducts, ...hygieneProducts]; }
+    const DATA_SCHEMA_VERSION = 'blank-stock-distributions-beneficiaries-compliance-partners-full-v5';
+    const defaultBeneficiaries = [];
+    let beneficiaries = [];
+    let partners = [
+      {id:'partner-ba-bxl', name:'Banque Alimentaire Bruxelles-Brabant', type:'Point central de stockage', emails:'planning@banque-alimentaire.be', phones:'02 000 00 00', address:'Rue de Meudon 60, 1120 Bruxelles', contactPerson:'Responsable planning', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:'Source principale FEAD.'},
+      {id:'partner-cpas-anderlecht', name:'CPAS Anderlecht', type:'Partenaire communal', emails:'social@anderlecht.brussels', phones:'02 000 00 01', address:'Anderlecht, Bruxelles', contactPerson:'Service social', status:'Convention à vérifier', partnership:'', contract:'', usefulInfo:'', note:'Validation bénéficiaires et partenariat communal.'},
+      {id:'partner-colruyt-jette', name:'Colruyt Jette', type:'Colruyt', emails:'', phones:'', address:'Rue Léopold I 511B, 1090 Jette', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-colruyt-osseghem', name:'Colruyt Osseghem / Molenbeek', type:'Colruyt', emails:'', phones:'', address:'Chaussée de Gand 362, 1080 Molenbeek-Saint-Jean', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-colruyt-laeken', name:'Colruyt Laeken', type:'Colruyt', emails:'', phones:'', address:'Place Maurice De Moor 7, 1020 Laeken', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-okey-jette', name:'Okay Jette', type:'Okey', emails:'', phones:'', address:'Chaussée de Jette 389, 1090 Jette', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-okey-ganshoren', name:'Okay Ganshoren', type:'Okey', emails:'', phones:'', address:'Avenue de l’Hôpital Français 42, 1083 Ganshoren', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-aldi-saint-guidon', name:'ALDI Saint-Guidon', type:'Aldi', emails:'', phones:'', address:'Rue Saint-Guidon 75, 1070 Anderlecht', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-aldi-marius-renard', name:'ALDI Marius Renard', type:'Aldi', emails:'', phones:'', address:'Avenue Marius Renard 27A / 27 A B1, 1070 Anderlecht', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-aldi-chaussee-mons', name:'ALDI Chaussée de Mons', type:'Aldi', emails:'', phones:'', address:'Chaussée de Mons 576, 1070 Anderlecht', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-aldi-molenbeek', name:'ALDI Molenbeek', type:'Aldi', emails:'', phones:'', address:'271 Chaussée de Gand, 1081 Koekelberg', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-banque-alimentaire-bruxelles', name:'Banque Alimentaire Bruxelles', type:'Banque Alimentaire', emails:'', phones:'', address:'Rue de Meudon 60, 1120 Bruxelles', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''},
+      {id:'partner-circularium', name:'Circularium', type:'Partenaire', emails:'', phones:'', address:'Chaussée de Mons 95, 1070 Anderlecht', contactPerson:'', status:'Actif', partnership:'', contract:'', usefulInfo:'', note:''}
+    ];
+    const checklist = [
+      ['Attestation AFSCA disponible et affichée','warning','Responsable stock','2026-05-20'],
+      ['Drapeau européen A3 affiché sur le lieu de distribution','warning','Accueil','2026-05-20'],
+      ['Distribution gratuite sans contrepartie','warning','Coordination','2026-05-21'],
+      ['Comptabilité matière mise à jour','warning','Gestion stock','2026-05-19'],
+      ['Bons d’entrée / cession disponibles','warning','Administration','2026-05-18'],
+      ['Stock physique comptable contrôlable','warning','Magasinier','2026-05-17'],
+      ['Mesures d’accompagnement proposées','warning','Social','2026-05-21'],
+      ['Péremptions surveillées','warning','Stock','2026-05-16'],
+      ['Pertes / destructions déclarées','warning','Gestion stock','2026-05-20'],
+      ['Documents conservés et classés','warning','Administration','2026-05-15']
+    ];
+    function daysAgo(n){ const d=new Date('2026-05-21T10:00:00'); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
+    const defaultMovements = [];
+    const defaultInventory = {};
+    getAllProducts().forEach((p,i)=> defaultInventory[p.id] = {physical:null, lastCheck:'2026-05-' + String(12 + (i%9)).padStart(2,'0')});
+    let state = loadState();
+    function uid(){return 'id-' + Math.random().toString(36).slice(2,9) + '-' + Date.now().toString(36)}
+    function defaultLogs(){ return [
+      {id:uid(), at:'2026-05-21 10:00', category:'Système', action:'Base vierge', detail:'Initialisation d’une base stock vierge. Les produits et mouvements seront ajoutés manuellement.', user:'Système', section:'Stock'}
+    ]; }
+    function normalizePartners(list){
+      const source=(list&&list.length?list:partners);
+      const byId=new Map();
+      [...partners, ...source].forEach((p,i)=>{
+        const id=p.id||('partner-'+i+'-'+String(p.name||'partenaire').toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+        byId.set(id,{id, name:p.name||'', type:p.type||'', emails:p.emails||p.contact||'', phones:p.phones||p.phone||'', address:p.address||'', contactPerson:p.contactPerson||'', status:p.status||'Actif', partnership:'', contract:'', usefulInfo:'', note:p.note||''});
+      });
+      return [...byId.values()];
+    }
+    function normalizeBeneficiaries(list){ return (list||beneficiaries).map((b,i)=>({id:b.id||('ben-'+i+'-'+String(b.lastName||b.name||'beneficiaire').toLowerCase().replace(/[^a-z0-9]+/g,'-')), firstName:b.firstName||'', lastName:b.lastName||'', nationalRegister:b.nationalRegister||'', address:b.address||'', phone:b.phone||'', email:b.email||'', householdComposition:b.householdComposition||'', adults:+b.adults||0, children:+b.children||0, status:b.status||'Actif', notes:b.notes||''})); }
+    function loadState(){ const saved=localStorage.getItem('rafael-fead-anderlecht-v1'); if(saved){try{const parsed=JSON.parse(saved); if(!parsed.logs) parsed.logs=defaultLogs(); if(!parsed.categories) parsed.categories=[...defaultCategories]; if(parsed.foodProducts) foodProducts=parsed.foodProducts; if(parsed.hygieneProducts) hygieneProducts=parsed.hygieneProducts; if(parsed.partners) partners=normalizePartners(parsed.partners); if(parsed.schemaVersion!==DATA_SCHEMA_VERSION){ parsed.movements=[]; parsed.inventory={}; parsed.beneficiaries=[]; parsed.partners=normalizePartners(parsed.partners||partners); parsed.checklist=checklist.map(x=>[...x]); parsed.complianceNotes={}; parsed.foodProducts=foodProducts; parsed.hygieneProducts=hygieneProducts; parsed.schemaVersion=DATA_SCHEMA_VERSION; parsed.logs=[{id:uid(), at:nowLog(), category:'Système', action:'Base nettoyée', detail:'Historique des distributions et liste des bénéficiaires vidés. Liste complète des partenaires ajoutée. Conformité remise par défaut à vérifier.', user:'Système', section:'Dashboard'}, ...(parsed.logs||[])]; localStorage.setItem('rafael-fead-anderlecht-v1', JSON.stringify(parsed)); } beneficiaries=normalizeBeneficiaries(parsed.beneficiaries||[]); return parsed;}catch(e){}} return {schemaVersion:DATA_SCHEMA_VERSION, movements:defaultMovements, inventory:defaultInventory, checklist:checklist.map(x=>[...x]), logs:defaultLogs(), categories:[...defaultCategories], partners:normalizePartners(partners), beneficiaries:normalizeBeneficiaries(beneficiaries), foodProducts, hygieneProducts, complianceNotes:{}}; }
+    function saveState(){ state.schemaVersion=DATA_SCHEMA_VERSION; state.partners=normalizePartners(partners); state.beneficiaries=normalizeBeneficiaries(beneficiaries); state.foodProducts=foodProducts; state.hygieneProducts=hygieneProducts; localStorage.setItem('rafael-fead-anderlecht-v1', JSON.stringify(state)); toast('Sauvegardé localement'); renderAll(); }
+    function nowLog(){ return new Date().toLocaleString('fr-BE', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'}).replace(',', ''); }
+    function currentUser(){ return localStorage.getItem('rafael-fead-auth-user') || 'Utilisateur'; }
+    function addLog(category, action, detail, section='Dashboard', user=currentUser()){ if(!state.logs) state.logs=[]; state.logs.unshift({id:uid(), at:nowLog(), category, action, detail, user, section}); if(state.logs.length>500) state.logs=state.logs.slice(0,500); localStorage.setItem('rafael-fead-anderlecht-v1', JSON.stringify(state)); renderLogs(); }
+    function resetState(){ if(confirm('Réinitialiser les données de démonstration ?')){localStorage.removeItem('rafael-fead-anderlecht-v1'); state=loadState(); addLog('Système','Reset','Réinitialisation des données de démonstration.','Dashboard','Utilisateur'); renderAll(); toast('Données réinitialisées');}}
+    function product(id){return getAllProducts().find(p=>p.id===id)||{name:'Produit inconnu',unit:'u',category:'—',min:0,ratioMonth:0,expiryDate:''}}
+    function movementsFor(pid){return state.movements.filter(m=>m.productId===pid)}
+    function signedQty(m){ if(m.type==='entree') return +m.qty; if(m.type==='correction') return +m.qty; return -Math.abs(+m.qty); }
+    function stockOf(pid){ return movementsFor(pid).reduce((s,m)=>s+signedQty(m),0); }
+    function receivedOf(pid){ return movementsFor(pid).filter(m=>m.type==='entree'||(m.type==='correction'&&m.qty>0)).reduce((s,m)=>s+Math.abs(+m.qty),0); }
+    function distributedOf(pid){ return movementsFor(pid).filter(m=>m.type==='sortie').reduce((s,m)=>s+Math.abs(+m.qty),0); }
+    function lossesOf(pid){ return movementsFor(pid).filter(m=>m.type==='perte').reduce((s,m)=>s+Math.abs(+m.qty),0); }
+    function statusOf(p){ const s=stockOf(p.id); if(s<=p.min*.35) return ['critical','Critique','red']; if(s<=p.min) return ['low','Stock court','orange']; return ['ok','OK','green']; }
+    function fmt(n){ return Math.round(n).toLocaleString('fr-BE'); }
+    function dateFr(d){ return new Date(d+'T12:00:00').toLocaleDateString('fr-BE'); }
+    function typePill(t){ const map={entree:['Entrée','green'],sortie:['Distribution','blue'],perte:['Destruction','red'],correction:['Correction','orange']}; const x=map[t]||[t,'gray']; return `<span class="pill ${x[1]}">${x[0]}</span>`; }
+    function navInit(){ document.getElementById('nav').innerHTML=navItems.map((n,i)=>`<button class="nav-btn ${i===0?'active':''}" onclick="showView('${n[0]}')">${n[1]}</button>`).join(''); }
+    function exportIconButtons(){ return `<div class="export-actions"><button class="file-icon-btn" onclick="downloadSectionCSV()" title="Télécharger Excel / CSV" aria-label="Télécharger Excel / CSV"><img src="https://img.icons8.com/color/48/microsoft-excel-2019--v1.png" alt="Excel"><span class="sr">Télécharger Excel / CSV</span></button></div>`; }
+    function renderActions(view='dashboard'){
+      const actions = {
+        dashboard: `${exportIconButtons()}`,
+        stock: `${exportIconButtons()}`,
+        distributions: `${exportIconButtons()}`,
+        partenaires: `${exportIconButtons()}`,
+        beneficiaires: `${exportIconButtons()}`,
+        conformite: `${exportIconButtons()}`,
+        logs: `${exportIconButtons()}`
+      };
+      document.getElementById('contextActions').innerHTML = actions[view] || exportIconButtons();
+    }
+    let currentView='dashboard';
+    function showView(id){ if(!document.getElementById(id)) id='dashboard'; currentView=id; document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); [...document.querySelectorAll('.nav-btn')].find(b=>b.getAttribute('onclick')?.includes(id))?.classList.add('active'); renderActions(id); renderAll(); }
+    function renderKpis(){
+      beneficiaries=normalizeBeneficiaries(beneficiaries);
+      const distributionSessions=distributionGroups().length;
+      const individuals=beneficiaries.reduce((sum,b)=>sum+(+b.adults||0)+(+b.children||0),0);
+      const activePartners=normalizePartners(partners).filter(p=>p.status==='Actif').length;
+      const critical=getAllProducts().filter(p=>statusOf(p)[0]==='critical').length;
+      document.getElementById('kpis').innerHTML=[
+        ['distributions','Distributions',fmt(distributionSessions),'','green'],
+        ['beneficiaires','Individus',fmt(individuals),'','purple'],
+        ['partenaires','Partenaires',fmt(activePartners),'','blue'],
+        ['conformite','Alertes critiques',critical,'',critical?'red':'green']
+      ].map(k=>`<button class="card kpi-card dashboard-link ${k[4]}" onclick="showView('${k[0]}')"><label>${k[1]}</label><strong>${k[2]}</strong><span class="open-section">Ouvrir ${dashboardCards[k[0]] || k[1]}</span></button>`).join('');
+    }
+    function renderTopBars(){
+      const products=getAllProducts().map(p=>({p,stock:Math.max(0,stockOf(p.id))}));
+      const top=products.sort((a,b)=>b.stock-a.stock).slice(0,10);
+      const low=[...products].sort((a,b)=>a.stock-b.stock).slice(0,10);
+      const maxTop=Math.max(...top.map(x=>x.stock),1);
+      const maxLow=Math.max(...low.map(x=>x.stock),1);
+      document.getElementById('topBars').innerHTML=top.length ? top.map(x=>`<div class="bar-row"><span>${x.p.name.split(' ').slice(0,3).join(' ')}</span><div class="bar"><span style="width:${Math.min(100,x.stock/maxTop*100)}%"></span></div><b>${fmt(x.stock)}</b></div>`).join('') : `<div class="insight"><b>Base stock vierge</b><p>Aucun produit enregistré pour le moment.</p></div>`;
+      const lowEl=document.getElementById('lowBars');
+      if(lowEl) lowEl.innerHTML=low.length ? low.map(x=>`<div class="bar-row"><span>${x.p.name.split(' ').slice(0,3).join(' ')}</span><div class="bar"><span style="width:${maxLow?Math.max(3,Math.min(100,x.stock/maxLow*100)):3}%"></span></div><b>${fmt(x.stock)}</b></div>`).join('') : `<div class="insight"><b>Base stock vierge</b><p>Ajoute des produits pour voir les stocks faibles.</p></div>`;
+    }
+    function renderRecent(){ const rows=[...state.movements].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8); document.getElementById('recentMovements').innerHTML=rows.length ? rows.map(m=>`<tr><td>${dateFr(m.date)}</td><td>${typePill(m.type)}</td><td>${product(m.productId).name}</td><td class="num">${m.type==='entree'||m.type==='correction'?'+':'-'}${fmt(Math.abs(m.qty))} ${product(m.productId).unit}</td><td>${m.source}</td><td>${m.ref}</td><td><button class="btn sm" onclick="editMovement('${m.id}')">Modifier</button></td></tr>`).join('') : `<tr><td colspan="7">Aucun mouvement enregistré.</td></tr>`; }
+    function renderStock(){ const q=(document.getElementById('stockSearch')?.value||'').toLowerCase(); let rows=getAllProducts().filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)); document.getElementById('stockRows').innerHTML=rows.length ? rows.map(p=>productRow(p,true)).join('') : `<tr><td colspan="8">Aucun produit en stock. Clique sur “Ajouter un produit” pour créer la première fiche.</td></tr>`; }
+    function renderHygiene(){ const q=(document.getElementById('hygSearch')?.value||'').toLowerCase(); const rows=hygieneProducts.filter(p=>p.name.toLowerCase().includes(q)); document.getElementById('hygRows').innerHTML=rows.map(p=>productRow(p,false)).join(''); }
+    function productRow(p,withCat){ const st=stockOf(p.id), rec=receivedOf(p.id), dist=distributedOf(p.id), loss=lossesOf(p.id); return `<tr><td><b>${p.name}</b></td>${withCat?`<td>${p.category}</td>`:''}<td>${p.unit}</td><td class="num"><b>${fmt(st)}</b></td><td class="num">${fmt(rec)}</td><td class="num">${fmt(dist)}</td><td class="num">${fmt(loss)}</td><td><button class="btn sm" onclick="openProduct('${p.id}')">Détail</button><button class="btn sm" onclick="openEditProductModal('${p.id}')">Edit</button></td></tr>`; }
+    function renderMovements(){ const q=(document.getElementById('movSearch')?.value||'').toLowerCase(); const t=document.getElementById('movType')?.value||'all'; let rows=[...state.movements].sort((a,b)=>b.date.localeCompare(a.date)); if(t!=='all') rows=rows.filter(m=>m.type===t); if(q) rows=rows.filter(m=>`${m.date} ${m.ref} ${m.source} ${m.owner} ${product(m.productId).name}`.toLowerCase().includes(q)); document.getElementById('movementRows').innerHTML=rows.map(m=>`<tr><td>${dateFr(m.date)}</td><td>${typePill(m.type)}</td><td>${m.ref}</td><td><b>${product(m.productId).name}</b></td><td class="num">${m.type==='entree'||m.type==='correction'?'+':'-'}${fmt(Math.abs(m.qty))}</td><td>${product(m.productId).unit}</td><td>${m.source}</td><td class="num">${m.beneficiaries||'—'}</td><td>${m.owner||'—'}</td><td><button class="btn sm" onclick="editMovement('${m.id}')">Modifier</button><button class="btn sm danger" onclick="deleteMovement('${m.id}')">Suppr.</button></td></tr>`).join(''); }
+    function distributionGroups(){
+      const map={};
+      state.movements
+        .filter(m=>m.type==='sortie' && !m.removedFromDistribution)
+        .forEach(m=>{
+          const k=m.ref;
+          if(!map[k]) map[k]={date:m.date, source:m.source, beneficiaries:m.beneficiaries, support:m.support, items:[], units:0};
+          map[k].items.push(product(m.productId).name);
+          map[k].units+=Math.abs(+m.qty);
+          map[k].beneficiaries=Math.max(map[k].beneficiaries||0,m.beneficiaries||0);
+        });
+      return Object.entries(map).map(([ref,v])=>({ref,...v})).sort((a,b)=>b.date.localeCompare(a.date));
+    }
+    function renderDistributions(){ const groups=distributionGroups(); const q=(document.getElementById('distributionSearch')?.value||'').toLowerCase(); const rows=q?groups.filter(g=>`${g.date} ${g.ref} ${g.source} ${g.beneficiaries} ${g.items.join(' ')}`.toLowerCase().includes(q)):groups; document.getElementById('distRows').innerHTML=rows.length ? rows.map(g=>`<tr class="${g.date>new Date().toISOString().slice(0,10)?'future-row':''}"><td>${dateFr(g.date)}</td><td>${g.source}</td><td class="num"><b>${g.beneficiaries}</b></td><td>${g.items.slice(0,4).join(', ')}${g.items.length>4?'…':''}</td><td class="num">${fmt(g.units)}</td><td><button class="btn sm" onclick="openDistribution('${g.ref}')">Détail</button></td></tr>`).join('') : `<tr><td colspan="6">Aucune session de distribution enregistrée.</td></tr>`; renderFutureDistributions(groups); }
+    function renderFutureDistributions(groups=distributionGroups()){
+      const el=document.getElementById('futureDistributions');
+      if(!el) return;
+      const today=new Date().toISOString().slice(0,10);
+      const future=groups.filter(g=>g.date>today).sort((a,b)=>a.date.localeCompare(b.date));
+      el.innerHTML=future.map(g=>`<tr class="future-row"><td>${dateFr(g.date)}</td><td>${g.source}</td><td class="num"><b>${g.beneficiaries}</b></td><td>${g.items.slice(0,4).join(', ')}${g.items.length>4?'…':''}</td><td class="num">${fmt(g.units)}</td><td><button class="btn sm" onclick="openDistribution('${g.ref}')">Détail</button></td></tr>`).join('') || `<tr><td colspan="6">Aucune distribution future planifiée.</td></tr>`;
+    }
+    function inventoryRowsData(){ return getAllProducts().map(p=>{ const theoretical=stockOf(p.id); const inv=state.inventory[p.id]||{}; const physical=inv.physical===null||inv.physical===undefined?theoretical + ((p.id.length%5)-2):+inv.physical; return {p,theoretical,physical,diff:physical-theoretical,lastCheck:inv.lastCheck||'—'}; }); }
+    function renderPartners(){
+      partners=normalizePartners(partners);
+      const q=(document.getElementById('partnerSearch')?.value||'').toLowerCase();
+      const rows=partners.filter(p=>`${p.name} ${p.type} ${p.emails} ${p.phones} ${p.contactPerson} ${p.address} ${p.status}`.toLowerCase().includes(q));
+      document.getElementById('partnerCards').innerHTML=rows.map(p=>`<div class="card compact partner-card" onclick="openPartnerDetails('${p.id}')"><div class="partner-head"><h3>${p.name}</h3><span class="pill ${p.status==='Actif'?'green':p.status==='Inactif'?'red':'orange'} partner-status">${p.status}</span></div><p class="partner-meta">${p.emails||'Email non renseigné'}<br>${p.phones||'Téléphone non renseigné'}<br>${p.contactPerson||'Personne de contact non renseignée'}</p></div>`).join('') || '<div class="card compact">Aucun partenaire trouvé.</div>';
+    }
+    function openPartnerDetails(id){
+      partners=normalizePartners(partners);
+      const p=partners.find(x=>x.id===id);
+      if(!p) return;
+      openModal(p.name, `<form id="partnerDetailsForm" class="partner-form"><div class="form-field"><label>Nom du partenaire</label><input name="name" value="${escapeAttr(p.name)}" required></div><div class="form-field"><label>Type de partenaire</label><input name="type" value="${escapeAttr(p.type)}" placeholder="Ex. CPAS, magasin, banque alimentaire, équipe interne"></div><div class="form-field"><label>Personne de contact</label><input name="contactPerson" value="${escapeAttr(p.contactPerson)}" placeholder="Nom du contact principal"></div><div class="form-field"><label>Emails</label><textarea name="emails" placeholder="Un ou plusieurs emails">${escapeHtml(p.emails)}</textarea></div><div class="form-field"><label>Numéros de téléphone</label><textarea name="phones" placeholder="Un ou plusieurs numéros">${escapeHtml(p.phones)}</textarea></div><div class="form-field"><label>Adresse</label><textarea name="address" placeholder="Adresse complète">${escapeHtml(p.address)}</textarea></div><div class="form-field"><label>Statut</label><select name="status"><option ${p.status==='Actif'?'selected':''}>Actif</option><option ${p.status==='Convention à vérifier'?'selected':''}>Convention à vérifier</option><option ${p.status==='À vérifier'?'selected':''}>À vérifier</option><option ${p.status==='En attente'?'selected':''}>En attente</option><option ${p.status==='Inactif'?'selected':''}>Inactif</option></select></div><div class="form-field"><label>Notes internes</label><textarea name="note" placeholder="Notes internes">${escapeHtml(p.note)}</textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);
+      document.getElementById('partnerDetailsForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        Object.assign(p,{name:fd.get('name'), type:fd.get('type'), contactPerson:fd.get('contactPerson'), emails:fd.get('emails'), phones:fd.get('phones'), address:fd.get('address'), status:fd.get('status'), note:fd.get('note')});
+        state.partners=normalizePartners(partners);
+        addLog('Partenaires','Mise à jour partenaire',p.name,'Partenaires');
+        closeModal();
+        saveState();
+        toast('Partenaire mis à jour');
+      }
+    }
+    function renderBeneficiaries(){
+      beneficiaries=normalizeBeneficiaries(beneficiaries);
+      const q=(document.getElementById('beneficiarySearch')?.value||'').toLowerCase();
+      const rows=beneficiaries.filter(b=>`${b.firstName} ${b.lastName} ${b.nationalRegister} ${b.address} ${b.phone} ${b.householdComposition}`.toLowerCase().includes(q));
+      const el=document.getElementById('beneficiaryCards');
+      if(!el) return;
+      el.innerHTML=rows.map(b=>`<div class="card compact beneficiary-card" onclick="openBeneficiaryModal('${b.id}')"><span class="pill ${b.status==='Actif'?'green':b.status==='Urgent'?'red':'orange'} beneficiary-status">${b.status}</span><h3>${b.firstName} ${b.lastName}</h3><div class="household-line"><span class="pill blue">Adultes ${b.adults}</span><span class="pill purple">Enfants ${b.children}</span></div></div>`).join('') || '<div class="card compact">Aucun bénéficiaire trouvé.</div>';
+    }
+    function openBeneficiaryModal(id=''){
+      beneficiaries=normalizeBeneficiaries(beneficiaries);
+      const b=beneficiaries.find(x=>x.id===id) || {id:'', firstName:'', lastName:'', nationalRegister:'', address:'', phone:'', email:'', householdComposition:'', adults:0, children:0, status:'Actif', notes:''};
+      const isNew=!b.id;
+      openModal(isNew?'Ajouter bénéficiaire':`${b.firstName} ${b.lastName}`, `<form id="beneficiaryForm" class="beneficiary-form"><div class="form-field"><label>Prénom</label><input name="firstName" value="${escapeAttr(b.firstName)}" required></div><div class="form-field"><label>Nom</label><input name="lastName" value="${escapeAttr(b.lastName)}" required></div><div class="form-field"><label>Registre national si disponible</label><input name="nationalRegister" value="${escapeAttr(b.nationalRegister)}" placeholder="Ex. 85.04.12-123.45"></div><div class="form-field"><label>Adresse</label><textarea name="address" placeholder="Adresse complète">${escapeHtml(b.address)}</textarea></div><div class="form-field"><label>Numéro de téléphone</label><input name="phone" value="${escapeAttr(b.phone)}" placeholder="Téléphone"></div><div class="form-field"><label>Email</label><input name="email" value="${escapeAttr(b.email)}" placeholder="Email si disponible"></div><div class="form-field"><label>Composition de ménage</label><textarea name="householdComposition" placeholder="Ex. Couple avec deux enfants, personne seule...">${escapeHtml(b.householdComposition)}</textarea></div><div class="form-field"><label>Nombre d’adultes</label><input name="adults" type="number" min="0" value="${b.adults}"></div><div class="form-field"><label>Nombre d’enfants</label><input name="children" type="number" min="0" value="${b.children}"></div><div class="form-field"><label>Statut</label><select name="status"><option ${b.status==='Actif'?'selected':''}>Actif</option><option ${b.status==='Urgent'?'selected':''}>Urgent</option><option ${b.status==='À vérifier'?'selected':''}>À vérifier</option><option ${b.status==='Suspendu'?'selected':''}>Suspendu</option><option ${b.status==='Inactif'?'selected':''}>Inactif</option></select></div><div class="form-field"><label>Notes utiles</label><textarea name="notes" placeholder="Informations utiles, besoins particuliers, suivi social...">${escapeHtml(b.notes)}</textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);
+      document.getElementById('beneficiaryForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        const payload={id:b.id||('ben-'+Date.now().toString(36)), firstName:fd.get('firstName'), lastName:fd.get('lastName'), nationalRegister:fd.get('nationalRegister'), address:fd.get('address'), phone:fd.get('phone'), email:fd.get('email'), householdComposition:fd.get('householdComposition'), adults:+fd.get('adults')||0, children:+fd.get('children')||0, status:fd.get('status'), notes:fd.get('notes')};
+        if(isNew) beneficiaries.push(payload); else Object.assign(b,payload);
+        state.beneficiaries=normalizeBeneficiaries(beneficiaries);
+        addLog('Bénéficiaires',isNew?'Création bénéficiaire':'Mise à jour bénéficiaire',`${payload.firstName} ${payload.lastName}`,'Bénéficiaires');
+        closeModal();
+        saveState();
+        toast(isNew?'Bénéficiaire ajouté':'Bénéficiaire mis à jour');
+      }
+    }
+    function renderCompliance(){
+      if(!state.complianceNotes) state.complianceNotes={};
+      const ok=state.checklist.filter(x=>x[1]==='ok').length, total=state.checklist.length, score=Math.round(ok/total*100);
+      document.getElementById('complianceKpis').innerHTML=[
+        ['Score conformité',score+'%','points OK','green'],
+        ['À améliorer',state.checklist.filter(x=>x[1]!=='ok').length,'encore à traiter','purple'],
+        ['À vérifier',state.checklist.filter(x=>x[1]==='warning').length,'points ouverts','orange'],
+        ['Risques',state.checklist.filter(x=>x[1]==='risk').length,'prioritaires','red']
+      ].map(k=>`<div class="card kpi-card ${k[3]}"><label>${k[0]}</label><strong>${k[1]}</strong><small>${k[2]}</small></div>`).join('');
+      document.getElementById('checkRows').innerHTML=state.checklist.map((c,i)=>`<tr><td><b>${c[0]}</b></td><td><span class="pill ${c[1]==='ok'?'green':c[1]==='warning'?'orange':'red'}">${statusLabel(c[1])}</span></td><td>${c[2]}</td><td>${dateFr(c[3])}</td><td><button class="btn sm" onclick="openCompliancePoint(${i})">Détail</button></td></tr>`).join('');
+    }
+    function statusLabel(s){ return s==='ok'?'OK':s==='warning'?'À vérifier':'Risque'; }
+    function statusClass(s){ return s==='ok'?'green':s==='warning'?'orange':'red'; }
+    function openCompliancePoint(i){
+      if(!state.complianceNotes) state.complianceNotes={};
+      const c=state.checklist[i];
+      const notes=state.complianceNotes[i]||[];
+      const rows=notes.map(n=>`<tr><td>${n.at}</td><td>${escapeHtml(n.user||'Utilisateur')}</td><td>${escapeHtml(n.note)}</td></tr>`).join('') || `<tr><td colspan="3">Aucune note enregistrée pour ce point.</td></tr>`;
+      openModal('Point conformité', `<form id="complianceForm" class="partner-form"><div class="form-field"><label>Sujet</label><input name="subject" value="${escapeAttr(c[0])}" required></div><div class="form-field"><label>Statut</label><select name="status"><option value="ok" ${c[1]==='ok'?'selected':''}>OK</option><option value="warning" ${c[1]==='warning'?'selected':''}>À vérifier</option><option value="risk" ${c[1]==='risk'?'selected':''}>Risque</option></select></div><div class="form-field"><label>Responsable</label><input name="owner" value="${escapeAttr(c[2])}" required></div><div class="form-field"><label>Dernière vérification</label><input name="lastCheck" type="date" value="${c[3]}" required></div><div class="form-field"><label>Ajouter une note au log de ce point</label><textarea name="newNote" placeholder="Décris ce qui a été fait, vérifié, corrigé ou ce qui reste à faire..."></textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form><div class="table-wrap" style="margin-top:11px"><table><thead><tr><th>Date & heure</th><th>Utilisateur</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div>`);
+      document.getElementById('complianceForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        c[0]=fd.get('subject');
+        c[1]=fd.get('status');
+        c[2]=fd.get('owner');
+        c[3]=fd.get('lastCheck');
+        const note=(fd.get('newNote')||'').trim();
+        if(note){
+          if(!state.complianceNotes[i]) state.complianceNotes[i]=[];
+          state.complianceNotes[i].unshift({id:uid(), at:nowLog(), user:c[2]||'Utilisateur', note});
+          addLog('Conformité','Note point conformité',`${c[0]} — ${note}`,'Conformité',c[2]||'Utilisateur');
+        }else{
+          addLog('Conformité','Mise à jour point',`${c[0]} → ${statusLabel(c[1])}`,'Conformité',c[2]||'Utilisateur');
+        }
+        closeModal();
+        saveState();
+        toast('Point conformité mis à jour');
+      }
+    }
+    function escapeHtml(v){return String(v??'').replace(/[&<>"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));}
+    function escapeAttr(v){return escapeHtml(v).replace(/'/g,'&#39;');}
+    function openModal(title,html){ document.getElementById('modalTitle').textContent=title; document.getElementById('modalBody').innerHTML=html; document.getElementById('modalBackdrop').classList.add('show'); }
+    function closeModal(){ document.getElementById('modalBackdrop').classList.remove('show'); }
+    function openPartnerModal(){ openModal('Nouveau partenaire', `<form id="partnerForm" class="partner-form"><div class="form-field"><label>Nom du partenaire</label><input name="name" placeholder="Ex. Banque alimentaire, magasin, CPAS..." required></div><div class="form-field"><label>Type</label><input name="type" placeholder="Collecte, CPAS, stockage..." required></div><div class="form-field"><label>Personne de contact</label><input name="contactPerson" placeholder="Nom du contact principal"></div><div class="form-field"><label>Emails</label><textarea name="emails" placeholder="Un ou plusieurs emails"></textarea></div><div class="form-field"><label>Numéros de téléphone</label><textarea name="phones" placeholder="Un ou plusieurs numéros"></textarea></div><div class="form-field"><label>Adresse</label><textarea name="address" placeholder="Adresse complète"></textarea></div><div class="form-field"><label>Statut</label><select name="status"><option>Actif</option><option>Convention à vérifier</option><option>À vérifier</option><option>En attente</option><option>Inactif</option></select></div><div class="form-field"><label>Notes internes</label><textarea name="note" placeholder="Notes internes"></textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Créer partenaire</button></div></form>`); document.getElementById('partnerForm').onsubmit=function(e){ e.preventDefault(); const fd=new FormData(e.target); const newPartner={id:'partner-'+Date.now().toString(36), name:fd.get('name'), type:fd.get('type'), contactPerson:fd.get('contactPerson'), emails:fd.get('emails'), phones:fd.get('phones'), address:fd.get('address'), status:fd.get('status'), note:fd.get('note')}; partners.push(newPartner); state.partners=normalizePartners(partners); addLog('Partenaires','Création partenaire',fd.get('name'),'Partenaires'); closeModal(); saveState(); toast('Partenaire ajouté'); } }
+    function categoryOptions(selected=''){
+      const cats=state.categories || defaultCategories;
+      return cats.map(c=>`<option value="${c}" ${c===selected?'selected':''}>${c}</option>`).join('') + '<option value="__new_category__">Créer une nouvelle catégorie…</option>';
+    }
+    function unitOptions(selected='pièces'){
+      const units=['pièces','bouteille','paquets','conserves','bocaux','briques','cartons','caisses','palettes','kits','flacons','tubes'];
+      return units.map(u=>`<option value="${u}" ${u===selected?'selected':''}>${u}</option>`).join('');
+    }
+    function openProductModal(){
+      if(!state.categories) state.categories=[...defaultCategories];
+      const productOptions=getAllProducts().map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+      openModal('Stock produits', `<form id="productForm" class="product-form-wide">
+        <details class="form-accordion">
+          <summary>Ajouter un Nouveau Produit</summary>
+          <div class="form-accordion-body">
+            <div class="form-field"><label>Nom du produit</label><input name="name" placeholder="Ex. Semoule, Conserves, Lait, Gel douche..."></div>
+            <div class="form-field"><label>Catégorie</label><select name="category" id="productCategory" onchange="handleCategorySelect(this)" required>${categoryOptions()}</select></div>
+            <div class="form-field"><label>Quantité</label><input name="initialQty" type="number" min="0" value="0" placeholder="Quantité initiale à ajouter au stock"></div>
+            <div class="form-field"><label>Unité</label><select name="unit">${unitOptions('pièces')}</select></div>
+            <div class="form-field"><label>Date limite de consommation</label><input name="expiryDate" type="date"></div>
+            <div class="form-field"><label>Note produit</label><textarea name="note" placeholder="Remarque interne, format, conditions de stockage, priorité..."></textarea></div>
+          </div>
+        </details>
+        <details class="form-accordion">
+          <summary>Mettre à jour un produit existant</summary>
+          <div class="form-accordion-body">
+            <div class="form-field"><label>Nom du produit</label><select name="existingProductId" id="existingProductSelect" onchange="fillExistingProductForm()"><option value="">Sélectionner un produit…</option>${productOptions}</select></div>
+            <div class="form-field"><label>Catégorie</label><select name="existingCategory" id="existingCategory" onchange="handleCategorySelect(this)">${categoryOptions()}</select></div>
+            <div class="form-field"><label>Quantité</label><input name="existingQty" id="existingQty" type="number" min="0" placeholder="Quantité à ajouter" value=""></div>
+            <div class="form-field"><label>Unité</label><select name="existingUnit" id="existingUnit">${unitOptions('pièces')}</select></div>
+            <div class="form-field"><label>Date limite de consommation</label><input name="existingExpiryDate" id="existingExpiryDate" type="date"></div>
+            <div class="form-field"><label>Note produit</label><textarea name="existingNote" id="existingNote" placeholder="Remarque interne, format, conditions de stockage, priorité..."></textarea></div>
+          </div>
+        </details>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div>
+      </form>`);
+      document.getElementById('productForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        const existingId=fd.get('existingProductId');
+        const newName=(fd.get('name')||'').trim();
+        if(existingId){
+          const existing=getAllProducts().find(p=>p.id===existingId);
+          if(existing){
+            existing.category=fd.get('existingCategory');
+            existing.unit=fd.get('existingUnit');
+            existing.note=fd.get('existingNote')||'';
+            existing.expiryDate=fd.get('existingExpiryDate')||'';
+            const qty=+fd.get('existingQty')||0;
+            let updateRef='—';
+            if(qty>0){
+              updateRef='UPD-'+Date.now().toString(36).toUpperCase();
+              state.movements.push({id:uid(), date:new Date().toISOString().slice(0,10), type:'entree', productId:existing.id, qty, source:'Mise à jour produit', ref:updateRef, beneficiaries:0, owner:'Utilisateur', support:'', note:'Quantité ajoutée lors de la mise à jour'});
+            }
+            addLog('Stock','Mise à jour produit',`${existing.name}${qty>0?' — quantité ajoutée '+fmt(qty):''}`,'Stock');
+            closeModal();
+            saveState();
+            openGeneratedProductEmail(existing, {action:'Mise à jour produit', quantity:qty, reference:updateRef, note:fd.get('existingNote')||''});
+            toast('Produit mis à jour');
+            return;
+          }
+        }
+        if(!newName){ alert('Indique le nom du nouveau produit ou sélectionne un produit existant.'); return; }
+        const category=fd.get('category');
+        const id='prod-'+newName.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now().toString(36);
+        const initialQty=+fd.get('initialQty')||0;
+        foodProducts.push({id, name:newName, unit:fd.get('unit').trim(), category, ratioMonth:1, min:0, expiryDate:fd.get('expiryDate')||'', note:fd.get('note')||''});
+        let productRef='—';
+        if(initialQty>0){
+          productRef='PROD-'+Date.now().toString(36).toUpperCase();
+          state.movements.push({id:uid(), date:new Date().toISOString().slice(0,10), type:'entree', productId:id, qty:initialQty, source:'Création produit', ref:productRef, beneficiaries:0, owner:'Utilisateur', support:'', note:'Quantité initiale'});
+        }
+        const createdProduct=foodProducts.find(p=>p.id===id);
+        addLog('Stock','Création produit',`${newName} — ${category}${initialQty>0?' — quantité initiale '+fmt(initialQty):''}`,'Stock');
+        closeModal();
+        saveState();
+        openGeneratedProductEmail(createdProduct, {action:'Création produit', quantity:initialQty, reference:productRef, note:fd.get('note')||''});
+        toast('Produit ajouté');
+      }
+    }
+    function fillExistingProductForm(){
+      const id=document.getElementById('existingProductSelect')?.value;
+      const p=getAllProducts().find(x=>x.id===id);
+      if(!p) return;
+      document.getElementById('existingCategory').innerHTML=categoryOptions(p.category);
+      document.getElementById('existingCategory').value=p.category;
+      document.getElementById('existingUnit').innerHTML=unitOptions(p.unit);
+      document.getElementById('existingUnit').value=p.unit;
+      document.getElementById('existingQty').value='';
+      document.getElementById('existingExpiryDate').value=p.expiryDate||'';
+      document.getElementById('existingNote').value=p.note||'';
+    }
+    function handleCategorySelect(selectEl){
+      const select=selectEl || document.getElementById('productCategory');
+      if(!select || select.value!=='__new_category__') return;
+      window.pendingCategorySelectId=select.id || 'productCategory';
+      openCategoryPopup();
+    }
+    function openCategoryPopup(){
+      const popup=document.getElementById('categoryPopup');
+      const input=document.getElementById('categoryPopupInput');
+      if(!popup || !input) return;
+      input.value='';
+      popup.classList.add('show');
+      setTimeout(()=>input.focus(),50);
+    }
+    function cancelCategoryPopup(){
+      const popup=document.getElementById('categoryPopup');
+      const select=document.getElementById(window.pendingCategorySelectId || 'productCategory');
+      if(select) select.value=state.categories?.[0] || defaultCategories[0];
+      if(popup) popup.classList.remove('show');
+      window.pendingCategorySelectId=null;
+    }
+    function confirmCategoryPopup(){
+      const input=document.getElementById('categoryPopupInput');
+      const popup=document.getElementById('categoryPopup');
+      const select=document.getElementById(window.pendingCategorySelectId || 'productCategory');
+      const name=(input?.value||'').trim();
+      if(!name){ input?.focus(); return; }
+      if(!state.categories) state.categories=[...defaultCategories];
+      const existing=state.categories.find(c=>c.toLowerCase()===name.toLowerCase());
+      if(!existing){
+        state.categories.push(name);
+        state.categories.sort((a,b)=>a.localeCompare(b,'fr'));
+        localStorage.setItem('rafael-fead-anderlecht-v1', JSON.stringify(state));
+        addLog('Stock','Création catégorie',name,'Stock');
+      }
+      const selected=existing || name;
+      if(select){
+        select.innerHTML=state.categories.map(c=>`<option value="${c}">${c}</option>`).join('') + '<option value="__new_category__">Créer une nouvelle catégorie…</option>';
+        select.value=selected;
+      }
+      if(popup) popup.classList.remove('show');
+      window.pendingCategorySelectId=null;
+      toast('Catégorie ajoutée');
+    }
+    function openMovementModal(type='entree', existing=null){
+      const all=getAllProducts();
+      const m=existing||{date:new Date().toISOString().slice(0,10), type, productId:all[0]?.id||'', qty:1, source:type==='entree'?'Banque Alimentaire Bruxelles-Brabant':'Distribution Anderlecht', ref:type==='entree'?'BE-'+Date.now().toString(36).toUpperCase():'DIST-'+Date.now().toString(36).toUpperCase(), beneficiaries:type==='sortie'?0:0, owner:currentUser(), support:'', note:''};
+      const isDistribution=(m.type==='sortie' || type==='sortie');
+      if(isDistribution && !existing){
+        openDistributionCreateModal(m);
+        return;
+      }
+      const options=all.map(p=>`<option value="${p.id}" ${m.productId===p.id?'selected':''}>${p.name} — ${p.unit}</option>`).join('');
+      const typeField=isDistribution?`<input type="hidden" name="type" value="sortie">`:`<div class="form-field"><label>Type</label><select name="type"><option value="entree" ${m.type==='entree'?'selected':''}>Entrée</option><option value="sortie" ${m.type==='sortie'?'selected':''}>Sortie / distribution</option><option value="perte" ${m.type==='perte'?'selected':''}>Perte / destruction</option><option value="correction" ${m.type==='correction'?'selected':''}>Correction</option></select></div>`;
+      openModal(existing?'Modifier mouvement':(isDistribution?'Nouvelle Distribution':'Ajouter mouvement'), `<form id="movementForm" class="product-form-wide"><input type="hidden" name="id" value="${m.id||''}">${typeField}<div class="form-field"><label>Date</label><input name="date" type="date" value="${m.date}" required></div><div class="form-field"><label>Bénéficiaires</label><input name="beneficiaries" type="number" min="0" value="${m.beneficiaries||0}"></div><div class="form-field"><label>Produit</label><select name="productId" required>${options || '<option value="">Aucun produit disponible</option>'}</select></div><div class="form-field"><label>Quantité</label><input name="qty" type="number" min="1" value="${m.qty}" required></div><div class="form-field"><label>Référence / bon</label><input name="ref" value="${m.ref}" required></div><div class="form-field"><label>Destination</label><input name="source" value="${m.source}" required></div><div class="form-field"><label>Responsable</label><input name="owner" value="${m.owner||''}"></div><div class="form-field"><label>Mesure d’accompagnement</label><input name="support" value="${m.support||''}"></div><div class="form-field"><label>Remarque</label><textarea name="note">${m.note||''}</textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);
+      document.getElementById('movementForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        const obj=Object.fromEntries(fd.entries());
+        obj.qty=+obj.qty;
+        obj.beneficiaries=+obj.beneficiaries||0;
+        obj.type=obj.type||type;
+        if(!obj.productId){ alert('Ajoute d’abord un produit dans le stock.'); return; }
+        if(obj.type==='sortie' && obj.qty>stockOf(obj.productId)){ alert('Quantité supérieure au stock disponible.'); return; }
+        if(obj.id){
+          const idx=state.movements.findIndex(x=>x.id===obj.id);
+          state.movements[idx]=obj;
+          addLog(obj.type==='sortie'?'Distribution':'Stock','Modification mouvement',`${product(obj.productId).name} — ${fmt(obj.qty)} ${product(obj.productId).unit}`,obj.type==='sortie'?'Distributions':'Stock',obj.owner||'Utilisateur');
+        } else {
+          obj.id=uid();
+          state.movements.push(obj);
+          addLog(obj.type==='sortie'?'Distribution':'Stock','Création mouvement',`${product(obj.productId).name} — ${fmt(obj.qty)} ${product(obj.productId).unit}`,obj.type==='sortie'?'Distributions':'Stock',obj.owner||'Utilisateur');
+        }
+        closeModal();
+        saveState();
+      }
+    }
+    function distributionProductRowHTML(index, selectedId=''){
+      const all=getAllProducts();
+      const options=all.map(p=>`<option value="${p.id}" ${p.id===selectedId?'selected':''}>${p.name} — ${p.unit}</option>`).join('');
+      const firstId=selectedId || all[0]?.id || '';
+      const p=product(firstId);
+      return `<div class="distribution-product-row" data-row="${index}"><div class="distribution-line"><div class="form-field"><label>Produit</label><select name="distProductId" onchange="updateDistributionStockBadges()" required>${options || '<option value="">Aucun produit disponible</option>'}</select></div><div class="form-field"><label>Quantité</label><input name="distQty" type="number" min="1" max="${firstId?stockOf(firstId):0}" value="1" oninput="validateDistributionQty(this)" required></div><div class="form-field"><label>DLC</label><input class="distribution-readonly dlc-value" value="${p.expiryDate?dateFr(p.expiryDate):'—'}" readonly></div><div class="form-field"><label>Stock disponible</label><input class="distribution-readonly stock-value" value="${firstId?fmt(stockOf(firstId)):0} ${p.unit||''}" readonly></div><div class="distribution-row-actions"><button type="button" class="btn sm danger icon-remove-product" onclick="removeDistributionRow(this)" title="Retirer ce produit" aria-label="Retirer ce produit">✕</button></div></div></div>`;
+    }
+    function openDistributionCreateModal(m){
+      if(!getAllProducts().length){ alert('Ajoute d’abord au moins un produit dans le stock.'); return; }
+      openModal('Nouvelle Distribution', `<form id="distributionCreateForm" class="product-form-wide"><input type="hidden" name="type" value="sortie"><input type="hidden" name="beneficiaries" value="0"><input type="hidden" name="support" value=""><div class="form-field"><label>Date</label><input name="date" type="date" value="${m.date}" required></div><div class="form-field"><label>Référence / bon</label><input name="ref" value="${m.ref}" required></div><div class="form-field"><label>Destination</label><input name="source" value="${m.source}" required></div><div class="form-field"><label>Responsable</label><input name="owner" value="${m.owner||''}"></div><div class="form-field"><label>Produits de la distribution</label><div id="distributionProductsList">${distributionProductRowHTML(0)}</div><button type="button" class="btn sm" onclick="addDistributionRow()">Ajouter un produit</button></div><div class="form-field"><label>Remarque</label><textarea name="note">${m.note||''}</textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);
+      updateDistributionStockBadges();
+      document.getElementById('distributionCreateForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        const productIds=[...document.querySelectorAll('#distributionProductsList select[name="distProductId"]')].map(x=>x.value);
+        const qtyInputs=[...document.querySelectorAll('#distributionProductsList input[name="distQty"]')];
+        const qtys=qtyInputs.map(x=>+x.value||0);
+        if(!productIds.length){ alert('Ajoute au moins un produit.'); return; }
+        for(let i=0;i<productIds.length;i++){
+          if(!productIds[i]){ alert('Produit manquant dans une ligne.'); return; }
+          if(qtys[i]<1){ alert('Chaque quantité doit être supérieure à zéro.'); return; }
+          if(qtys[i]>stockOf(productIds[i])){ alert(`Quantité trop grande pour ${product(productIds[i]).name}. Stock disponible : ${fmt(stockOf(productIds[i]))} ${product(productIds[i]).unit}`); return; }
+        }
+        const common={date:fd.get('date'), type:'sortie', source:fd.get('source'), ref:fd.get('ref'), beneficiaries:+fd.get('beneficiaries')||0, owner:fd.get('owner')||currentUser(), support:fd.get('support')||'', note:fd.get('note')||''};
+        productIds.forEach((pid,i)=>state.movements.push({...common,id:uid(),productId:pid,qty:qtys[i]}));
+        addLog('Distribution','Création distribution',`${common.ref} — ${productIds.length} produits — ${fmt(productIds.reduce((s,pid,i)=>s+qtys[i],0))} unités`, 'Distributions', common.owner);
+        closeModal();
+        saveState();
+        showView('distributions');
+      }
+    }
+    function addDistributionRow(){
+      const list=document.getElementById('distributionProductsList');
+      if(!list) return;
+      list.insertAdjacentHTML('beforeend', distributionProductRowHTML(list.children.length));
+      updateDistributionStockBadges();
+    }
+    function removeDistributionRow(btn){
+      const row=btn.closest('.distribution-product-row');
+      const list=document.getElementById('distributionProductsList');
+      if(row && list && list.children.length>1){ row.remove(); updateDistributionStockBadges(); }
+    }
+    function updateDistributionStockBadges(){
+      document.querySelectorAll('.distribution-product-row').forEach(row=>{
+        const select=row.querySelector('select[name="distProductId"]');
+        const input=row.querySelector('input[name="distQty"]');
+        const badge=row.querySelector('.stock-value');
+        const dlc=row.querySelector('.dlc-value');
+        const pid=select?.value;
+        const p=product(pid);
+        const st=pid?Math.max(0,stockOf(pid)):0;
+        if(input){ input.max=st; if(+input.value>st) input.value=st; }
+        if(dlc) dlc.value=p.expiryDate?dateFr(p.expiryDate):'—';
+        if(badge) badge.value=`${fmt(st)} ${p.unit||''}`;
+      });
+    }
+    function validateDistributionQty(input){
+      const row=input.closest('.distribution-product-row');
+      const pid=row?.querySelector('select[name="distProductId"]')?.value;
+      const max=pid?stockOf(pid):0;
+      if(+input.value>max){ input.value=Math.max(0,max); toast('Quantité limitée au stock disponible'); }
+    }
+    function editMovement(id){ const m=state.movements.find(x=>x.id===id); openMovementModal(m.type,m); }
+    function deleteMovement(id){ if(confirm('Supprimer ce mouvement ?')){const m=state.movements.find(x=>x.id===id); state.movements=state.movements.filter(m=>m.id!==id); addLog('Stock','Suppression mouvement',m?`${product(m.productId).name} — ${m.ref}`:'Mouvement supprimé','Stock'); saveState();} }
+    function openEditProductModal(pid){
+      const p=getAllProducts().find(x=>x.id===pid);
+      if(!p) return;
+      openModal('Modifier produit', `<form id="editProductForm" class="product-form-wide"><div class="form-field"><label>Nom du produit</label><input name="name" value="${escapeAttr(p.name)}" required></div><div class="form-field"><label>Catégorie</label><select name="category" id="editProductCategory" onchange="handleCategorySelect(this)">${categoryOptions(p.category)}</select></div><div class="form-field"><label>Unité</label><select name="unit">${unitOptions(p.unit)}</select></div><div class="form-field"><label>Date limite de consommation</label><input name="expiryDate" type="date" value="${p.expiryDate||''}"></div><div class="form-field"><label>Note produit</label><textarea name="note" placeholder="Remarque interne, format, conditions de stockage, priorité...">${escapeHtml(p.note||'')}</textarea></div><div style="display:flex;gap:10px;justify-content:space-between;margin-top:12px"><button type="button" class="btn danger" onclick="deleteProduct('${pid}')">Supprimer</button><div style="display:flex;gap:10px"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></div></form>`);
+      document.getElementById('editProductForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        p.name=fd.get('name').trim();
+        p.category=fd.get('category');
+        p.unit=fd.get('unit');
+        p.expiryDate=fd.get('expiryDate')||'';
+        p.note=fd.get('note')||'';
+        addLog('Stock','Édition produit',p.name,'Stock');
+        closeModal();
+        saveState();
+        toast('Produit modifié');
+      }
+    }
+    function deleteProduct(pid){
+      const p=getAllProducts().find(x=>x.id===pid);
+      if(!p) return;
+      if(!confirm(`Supprimer définitivement ${p.name} et ses mouvements associés ?`)) return;
+      foodProducts=foodProducts.filter(x=>x.id!==pid);
+      hygieneProducts=hygieneProducts.filter(x=>x.id!==pid);
+      state.movements=state.movements.filter(m=>m.productId!==pid);
+      if(state.inventory) delete state.inventory[pid];
+      addLog('Stock','Suppression produit',p.name,'Stock');
+      closeModal();
+      saveState();
+      toast('Produit supprimé');
+    }
+    function openProduct(pid){
+      const p=product(pid);
+      const today=new Date().toISOString().slice(0,10);
+      const rows=movementsFor(pid).sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr class="${m.date>today?'future-row':''}"><td>${dateFr(m.date)}</td><td>${typePill(m.type)}</td><td>${m.ref}</td><td class="num">${m.type==='entree'||m.type==='correction'?'+':'-'}${fmt(Math.abs(m.qty))}</td><td>${m.source}</td><td>${m.note||'—'}</td></tr>`).join('') || `<tr><td colspan="6">Aucun mouvement pour ce produit.</td></tr>`;
+      openModal(p.name, `<div class="product-detail-head"><div class="product-detail-actions"><button class="btn success sm" onclick="openProductActionModal('${pid}','entree')">Ajouter</button><button class="btn primary sm" onclick="openProductActionModal('${pid}','sortie')">Distribuer</button><button class="btn danger sm" onclick="openProductActionModal('${pid}','perte')">Détruire</button></div></div><div class="grid three product-detail-kpi"><div class="card compact"><span class="pill blue">Stock</span><h2>${fmt(stockOf(pid))} ${p.unit}</h2></div><div class="card compact"><span class="pill green">Reçu</span><h2>${fmt(receivedOf(pid))}</h2></div><div class="card compact"><span class="pill orange">Distribué</span><h2>${fmt(distributedOf(pid))}</h2></div><div class="card compact"><span class="pill red">Pertes</span><h2>${fmt(lossesOf(pid))}</h2></div></div><div class="product-info-grid"><div class="form-field"><label>Nom du produit</label><input value="${escapeAttr(p.name)}" readonly></div><div class="form-field"><label>Catégorie</label><input value="${escapeAttr(p.category)}" readonly></div><div class="form-field"><label>Unité</label><input value="${escapeAttr(p.unit)}" readonly></div><div class="form-field"><label>Date limite de consommation</label><input value="${p.expiryDate?dateFr(p.expiryDate):'Non renseignée'}" readonly></div><div class="form-field"><label>Note produit</label><textarea readonly placeholder="Remarque interne, format, conditions de stockage, priorité...">${escapeHtml(p.note||'')}</textarea></div></div><div class="table-wrap" style="margin-top:11px"><table><thead><tr><th>Date</th><th>Type</th><th>Réf.</th><th>Quantité</th><th>Source</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div>`);
+    }
+    function openProductActionModal(pid,type){
+      const p=product(pid);
+      const labels={entree:{title:'Ajouter du stock', qty:'Quantité à ajouter', source:'Origine / fournisseur', ref:'LIV-'+new Date().toISOString().slice(2,10).replaceAll('-','')+'-'+Math.floor(Math.random()*90+10), sourceValue:'Livraison stock', note:'Note livraison', btn:'Ajouter', cls:'success'}, sortie:{title:'Distribuer le produit', qty:'Quantité à distribuer', source:'Lieu / distribution', ref:'DIST-'+new Date().toISOString().slice(2,10).replaceAll('-','')+'-'+Math.floor(Math.random()*90+10), sourceValue:'Distribution Anderlecht', note:'Mesure / note distribution', btn:'Distribuer', cls:'primary'}, perte:{title:'Détruire / déclarer une perte', qty:'Quantité à détruire', source:'Stock', ref:'DEST-'+new Date().toISOString().slice(2,10).replaceAll('-','')+'-'+Math.floor(Math.random()*90+10), sourceValue:'Stock Anderlecht', note:'Note obligatoire', btn:'Détruire', cls:'danger'}};
+      const l=labels[type];
+      openModal(l.title+' — '+p.name, `<form id="productActionForm" class="product-form-wide"><div class="form-field"><label>Date</label><input name="date" type="date" value="${new Date().toISOString().slice(0,10)}" required></div><div class="form-field"><label>${l.qty}</label><input name="qty" type="number" min="1" value="1" required></div><div class="form-field"><label>Référence</label><input name="ref" value="${l.ref}" required></div><div class="form-field"><label>${l.source}</label><input name="source" value="${l.sourceValue}" required></div>${type==='sortie'?`<div class="form-field"><label>Bénéficiaires</label><input name="beneficiaries" type="number" min="0" value="0"></div>`:`<input type="hidden" name="beneficiaries" value="0">`}<div class="form-field"><label>Responsable</label><input name="owner" value="Utilisateur"></div><div class="form-field"><label>${l.note}</label><textarea name="note" ${type==='perte'?'required':''} placeholder="${type==='perte'?'Explique la destruction, perte ou produit abîmé...':'Information complémentaire...'}"></textarea></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="openProduct('${pid}')">Annuler</button><button class="btn ${l.cls}">${l.btn}</button></div></form>`);
+      document.getElementById('productActionForm').onsubmit=function(e){
+        e.preventDefault();
+        const fd=new FormData(e.target);
+        const qty=+fd.get('qty');
+        if((type==='sortie'||type==='perte') && qty>stockOf(pid)){ alert('Quantité supérieure au stock disponible.'); return; }
+        const m={id:uid(), date:fd.get('date'), type, productId:pid, qty, source:fd.get('source'), ref:fd.get('ref'), beneficiaries:+fd.get('beneficiaries')||0, owner:fd.get('owner')||'Utilisateur', support:type==='sortie'?fd.get('note')||'':'', note:fd.get('note')||''};
+        state.movements.push(m);
+        addLog(type==='sortie'?'Distribution':'Stock', type==='entree'?'Ajout stock':type==='sortie'?'Distribution produit':'Destruction produit', `${p.name} — ${fmt(qty)} ${p.unit}`, type==='sortie'?'Distributions':'Stock', m.owner);
+        saveState();
+        if(type==='entree') openGeneratedStockEmail(m,p);
+        openProduct(pid);
+      }
+    }
+    function openGeneratedProductEmail(p, meta={}){
+      if(!p) return;
+      const to='bouhlal.achraf@live.fr';
+      const subject=p.name;
+      const bodyLines=[
+        'Bonjour,',
+        '',
+        'Un produit a été enregistré dans la plateforme Rafael FEAD CRM.',
+        '',
+        'INFORMATIONS PRODUIT',
+        `Action : ${meta.action || 'Enregistrement produit'}`,
+        `Nom du produit : ${p.name}`,
+        `Catégorie : ${p.category || '—'}`,
+        `Quantité enregistrée : ${fmt(meta.quantity || 0)} ${p.unit || ''}`,
+        `Unité : ${p.unit || '—'}`,
+        `Date limite de consommation : ${p.expiryDate ? dateFr(p.expiryDate) : 'Non renseignée'}`,
+        `Référence : ${meta.reference || '—'}`,
+        `Note : ${meta.note || p.note || '—'}`,
+        '',
+        'ÉTAT ACTUEL DU STOCK',
+        `Stock actuel : ${fmt(stockOf(p.id))} ${p.unit || ''}`,
+        `Total reçu : ${fmt(receivedOf(p.id))} ${p.unit || ''}`,
+        `Total distribué : ${fmt(distributedOf(p.id))} ${p.unit || ''}`,
+        `Total pertes : ${fmt(lossesOf(p.id))} ${p.unit || ''}`,
+        '',
+        'Plateforme : Rafael FEAD CRM — Anderlecht'
+      ];
+      const body=bodyLines.join(String.fromCharCode(10));
+      addLog('Export','Email produit préparé',`Email produit préparé pour ${to} — ${p.name}`,'Stock','Utilisateur');
+      window.location.href=`mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+    function openGeneratedStockEmail(m,p){
+      const to='bouhlal.achraf@live.fr';
+      const subject=`Entrée stock enregistrée — ${p.name} — ${m.ref}`;
+      const emailLines=[
+        'Bonjour,',
+        '',
+        'Une nouvelle entrée de stock a été enregistrée dans la plateforme Rafael FEAD CRM.',
+        '',
+        'DÉTAILS DE L’ENTRÉE',
+        `Produit : ${p.name}`,
+        `Catégorie : ${p.category}`,
+        `Quantité ajoutée : ${fmt(m.qty)} ${p.unit}`,
+        `Date : ${dateFr(m.date)}`,
+        `Référence : ${m.ref}`,
+        `Origine / fournisseur : ${m.source}`,
+        `Responsable : ${m.owner || 'Utilisateur'}`,
+        `Note : ${m.note || '—'}`,
+        '',
+        'ÉTAT APRÈS MISE À JOUR',
+        `Stock actuel : ${fmt(stockOf(p.id))} ${p.unit}`,
+        `Total reçu : ${fmt(receivedOf(p.id))} ${p.unit}`,
+        `Total distribué : ${fmt(distributedOf(p.id))} ${p.unit}`,
+        `Total pertes : ${fmt(lossesOf(p.id))} ${p.unit}`,
+        '',
+        'Ceci est un email généré automatiquement depuis la plateforme locale.',
+        '',
+        'Rafael FEAD CRM — Anderlecht'
+      ];
+      const body=emailLines.join(String.fromCharCode(10));
+      addLog('Export','Email préparé',`Email entrée stock préparé pour ${to} — ${p.name}`,'Stock',m.owner || 'Utilisateur');
+      window.location.href=`mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+    function openDistributionModal(){ openMovementModal('sortie'); }
+    function openDistribution(ref){
+      const rows=state.movements.filter(m=>m.ref===ref && m.type==='sortie' && !m.removedFromDistribution);
+      const first=rows[0];
+      if(!first){ closeModal(); renderAll(); toast('Distribution supprimée de la liste'); return; }
+      openModal('Distribution '+ref, `<div class="drawer-report"><b>Date :</b> ${dateFr(first.date)}<br><b>Destination :</b> ${first.source}<br><b>Bénéficiaires :</b> ${first.beneficiaries}</div><div class="table-wrap" style="margin-top:11px"><table><thead><tr><th>Produit</th><th>Quantité</th><th>Unité</th><th>Responsable</th><th>Action</th></tr></thead><tbody>${rows.map(m=>`<tr><td>${product(m.productId).name}</td><td class="num">${fmt(m.qty)}</td><td>${product(m.productId).unit}</td><td>${m.owner}</td><td><button class="btn sm danger" onclick="removeDistributionProduct('${m.id}','${ref}')">Retirer</button></td></tr>`).join('')}</tbody></table></div>`);
+    }
+    function removeDistributionProduct(movementId, originalRef){
+      const m=state.movements.find(x=>x.id===movementId);
+      if(!m || m.type!=='sortie' || m.removedFromDistribution) return;
+      const p=product(m.productId);
+      if(!confirm(`Retirer ${p.name} de la distribution ${originalRef} ?`)) return;
+
+      const qty=Math.abs(+m.qty)||0;
+      const oldRef=m.ref;
+      const oldSource=m.source;
+      const oldDate=m.date;
+      const oldOwner=m.owner || 'Utilisateur';
+      const correctionRef='CORR-'+new Date().toISOString().slice(2,10).replaceAll('-','')+'-'+Math.floor(Math.random()*900+100);
+
+      // On retire réellement la ligne de la distribution.
+      m.type='correction';
+      m.ref=correctionRef;
+      m.source='Correction distribution';
+      m.beneficiaries=0;
+      m.support='';
+      m.removedFromDistribution=true;
+      m.originalDistributionRef=oldRef;
+      m.originalDistributionSource=oldSource;
+      m.originalDistributionDate=oldDate;
+      m.note=`Produit retiré de la distribution ${oldRef}. Correction positive de stock : +${fmt(qty)} ${p.unit}.`;
+
+      addLog('Distribution','Retrait produit distribution',`${p.name} retiré de ${oldRef} — correction ${correctionRef} — +${fmt(qty)} ${p.unit}`,'Distributions',oldOwner);
+      saveState();
+
+      const remaining=state.movements.some(x=>x.ref===oldRef && x.type==='sortie' && !x.removedFromDistribution);
+      renderAll();
+      if(remaining){
+        openDistribution(oldRef);
+      }else{
+        closeModal();
+        showView('distributions');
+        toast('Distribution retirée complètement : aucun produit restant');
+      }
+    }
+    function openInventoryModal(pid='lait'){ const options=getAllProducts().map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${p.name}</option>`).join(''); openModal('Contrôle inventaire', `<form id="inventoryForm" class="form-grid"><div class="form-field full"><label>Produit</label><select name="productId" id="invProduct" onchange="document.getElementById('invTheo').value=stockOf(this.value)">${options}</select></div><div class="form-field"><label>Stock théorique</label><input id="invTheo" value="${stockOf(pid)}" disabled></div><div class="form-field"><label>Stock physique compté</label><input name="physical" type="number" value="${state.inventory[pid]?.physical ?? stockOf(pid)}" required></div><div class="form-field full"><label>Date de contrôle</label><input name="lastCheck" type="date" value="2026-05-21"></div><div class="full" style="display:flex;gap:10px;justify-content:flex-end"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`); document.getElementById('inventoryForm').onsubmit=function(e){ e.preventDefault(); const fd=new FormData(e.target); const id=fd.get('productId'); state.inventory[id]={physical:+fd.get('physical'), lastCheck:fd.get('lastCheck')}; closeModal(); saveState(); } }
+    function download(filename,text,type='text/plain'){ const blob=new Blob([text],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click(); URL.revokeObjectURL(a.href); }
+    function downloadJSON(){ addLog('Export','Export JSON','Téléchargement du fichier JSON complet.','Log'); download('rafael-fead-anderlecht-crm.json', JSON.stringify({org, products:getAllProducts(), categories:state.categories || defaultCategories, ...state},null,2), 'application/json'); }
+    function csvEscape(v){ return `"${String(v??'').replaceAll('"','""')}"`; }
+    function buildCSV(headers, rows){
+      const lineBreak = String.fromCharCode(10);
+      const headerLine = headers.map(csvEscape).join(';');
+      const dataLines = rows.map(r => headers.map(h => csvEscape(r[h])).join(';'));
+      return [headerLine, ...dataLines].join(lineBreak);
+    }
+    function sectionExportData(view=currentView){
+      const today=new Date().toISOString().slice(0,10);
+      if(view==='dashboard'){
+        const distributionSessions=distributionGroups().length;
+        const individuals=normalizeBeneficiaries(beneficiaries).reduce((sum,b)=>sum+(+b.adults||0)+(+b.children||0),0);
+        const activePartners=normalizePartners(partners).filter(p=>p.status==='Actif').length;
+        const critical=getAllProducts().filter(p=>statusOf(p)[0]==='critical').length;
+        const top=getAllProducts().map(p=>({name:p.name, category:p.category, stock:stockOf(p.id), unit:p.unit})).sort((a,b)=>b.stock-a.stock).slice(0,10);
+        const low=getAllProducts().map(p=>({name:p.name, category:p.category, stock:stockOf(p.id), unit:p.unit})).sort((a,b)=>a.stock-b.stock).slice(0,10);
+        const future=distributionGroups().filter(g=>g.date>today);
+        const recent=[...state.movements].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
+        const rows=[];
+        [['Distributions',distributionSessions],['Individus',individuals],['Partenaires actifs',activePartners],['Alertes critiques',critical]].forEach(x=>rows.push({section:'KPI', item:x[0], valeur:x[1], detail:''}));
+        top.forEach(x=>rows.push({section:'Top 10 stock', item:x.name, valeur:x.stock, detail:`${x.category} — ${x.unit}`}));
+        low.forEach(x=>rows.push({section:'Top 10 stock faible', item:x.name, valeur:x.stock, detail:`${x.category} — ${x.unit}`}));
+        future.forEach(g=>rows.push({section:'Distributions prévues', item:g.ref, valeur:g.units, detail:`${g.date} — ${g.source} — ${g.beneficiaries} bénéficiaires — ${g.items.join(', ')}`}));
+        recent.forEach(m=>rows.push({section:'Derniers mouvements', item:m.ref, valeur:m.qty, detail:`${m.date} — ${m.type} — ${product(m.productId).name} — ${m.source}`}));
+        return {filename:'dashboard-rafael-crm.csv', headers:['section','item','valeur','detail'], rows};
+      }
+      if(view==='stock'){
+        const rows=getAllProducts().map(p=>({produit:p.name,categorie:p.category,unite:p.unit,date_limite:p.expiryDate||'',stock_actuel:stockOf(p.id),total_recu:receivedOf(p.id),total_distribue:distributedOf(p.id),total_pertes:lossesOf(p.id),note:p.note||'',mouvements:movementsFor(p.id).map(m=>`${m.date} ${m.type} ${m.ref} ${m.qty} ${m.source}`).join(' | ')}));
+        return {filename:'stock-produits-rafael-crm.csv', headers:['produit','categorie','unite','date_limite','stock_actuel','total_recu','total_distribue','total_pertes','note','mouvements'], rows};
+      }
+      if(view==='distributions'){
+        const rows=distributionGroups().map(g=>({date:g.date,reference:g.ref,destination:g.source,beneficiaires:g.beneficiaries,produits:g.items.join(', '),unites_sorties:g.units,details:state.movements.filter(m=>m.ref===g.ref&&m.type==='sortie'&&!m.removedFromDistribution).map(m=>`${product(m.productId).name}: ${m.qty} ${product(m.productId).unit} — ${m.owner||''}`).join(' | ')}));
+        return {filename:'distributions-rafael-crm.csv', headers:['date','reference','destination','beneficiaires','produits','unites_sorties','details'], rows};
+      }
+      if(view==='partenaires'){
+        const rows=normalizePartners(partners).map(p=>({nom:p.name,type:p.type,statut:p.status,personne_contact:p.contactPerson,emails:p.emails,telephones:p.phones,adresse:p.address,notes:p.note}));
+        return {filename:'partenaires-rafael-crm.csv', headers:['nom','type','statut','personne_contact','emails','telephones','adresse','notes'], rows};
+      }
+      if(view==='beneficiaires'){
+        const rows=normalizeBeneficiaries(beneficiaries).map(b=>({prenom:b.firstName,nom:b.lastName,registre_national:b.nationalRegister,adresse:b.address,telephone:b.phone,email:b.email,composition_menage:b.householdComposition,adultes:b.adults,enfants:b.children,total_individus:(+b.adults||0)+(+b.children||0),statut:b.status,notes:b.notes}));
+        return {filename:'beneficiaires-rafael-crm.csv', headers:['prenom','nom','registre_national','adresse','telephone','email','composition_menage','adultes','enfants','total_individus','statut','notes'], rows};
+      }
+      if(view==='conformite'){
+        const rows=state.checklist.map((c,i)=>({sujet:c[0],statut:statusLabel(c[1]),responsable:c[2],derniere_verification:c[3],notes:(state.complianceNotes?.[i]||[]).map(n=>`${n.at} — ${n.user}: ${n.note}`).join(' | ')}));
+        return {filename:'conformite-rafael-crm.csv', headers:['sujet','statut','responsable','derniere_verification','notes'], rows};
+      }
+      if(view==='logs'){
+        const rows=(state.logs||[]).map(l=>({date_heure:l.at,categorie:l.category,action:l.action,detail:l.detail,utilisateur:l.user,section:l.section}));
+        return {filename:'logs-rafael-crm.csv', headers:['date_heure','categorie','action','detail','utilisateur','section'], rows};
+      }
+      return {filename:'export-rafael-crm.csv', headers:['message'], rows:[{message:'Aucune donnée exportable'}]};
+    }
+    function downloadSectionCSV(){ const data=sectionExportData(currentView); addLog('Export','Export Excel / CSV',`Téléchargement section ${currentView}`,'Log'); download(data.filename, buildCSV(data.headers,data.rows), 'text/csv;charset=utf-8'); }
+    function downloadCSV(){ downloadSectionCSV(); }
+    function renderLogs(){ const tbody=document.getElementById('logRows'); if(!tbody) return; const q=(document.getElementById('logSearch')?.value||'').toLowerCase(); const f=document.getElementById('logFilter')?.value||'all'; let rows=[...(state.logs||[])].filter(l=>l.category!=='Navigation'); if(f!=='all') rows=rows.filter(l=>l.category===f); if(q) rows=rows.filter(l=>`${l.at} ${l.category} ${l.action} ${l.detail} ${l.user} ${l.section}`.toLowerCase().includes(q)); tbody.innerHTML=rows.map(l=>`<tr><td>${l.at}</td><td><span class="pill gray">${l.category}</span></td><td><b>${l.action}</b></td><td>${l.detail}</td><td>${l.user}</td><td>${l.section}</td></tr>`).join('') || `<tr><td colspan="6">Aucun log disponible.</td></tr>`; }
+    function clearLogs(){ if(confirm('Vider tous les logs ?')){state.logs=[]; addLog('Système','Logs vidés','L’historique des logs a été vidé.','Log'); saveState(); renderLogs();} }
+    function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+    function renderAll(){ renderKpis(); renderTopBars(); renderRecent(); if(document.getElementById('stockRows')) renderStock(); renderDistributions(); renderPartners(); renderBeneficiaries(); renderCompliance(); renderLogs(); }
+    navInit(); renderActions('dashboard'); renderAll();
+  </script>
+</body>
+</html>
