@@ -12,7 +12,8 @@
   </style>
 </head>
 <body>
-  <div class="app" id="appRoot"><div class="top-nav"><div class="top-nav-inner"><nav id="nav" class="nav-menu"></nav></div></div><main><div class="topbar"><div class="actions" id="contextActions"></div></div><div class="storage-warning" id="storageWarning" style="display:none!important"></div>
+  <div class="login-screen" id="loginScreen"><div class="login-card"><h1>Connexion ASBL Rafael</h1><p>Accès réservé aux utilisateurs autorisés. Connecte-toi avec ton numéro de téléphone.</p><div class="login-error" id="loginError"></div><div class="login-form"><div class="form-field"><label>Numéro de téléphone</label><input id="authPhone" placeholder="Ex. 0465 33 21 85 ou +32465332185" autocomplete="tel"></div><button class="btn primary" type="button" onclick="sendPhoneCode()">Recevoir le code SMS</button><div id="recaptcha-container"></div><div class="form-field"><label>Code SMS</label><input id="authCode" placeholder="Code reçu par SMS" inputmode="numeric"></div><button class="btn primary" type="button" onclick="verifyPhoneCode()">Valider la connexion</button></div></div></div>
+  <div class="app" id="appRoot" style="display:none"><div class="top-nav"><div class="top-nav-inner"><nav id="nav" class="nav-menu"></nav><div class="auth-bar"><span class="auth-user" id="authUserBadge">Non connecté</span><button class="btn sm" onclick="logoutUser()">Déconnexion</button></div></div></div><main><div class="topbar"><div class="actions" id="contextActions"></div></div><div class="storage-warning" id="storageWarning" style="display:none!important"></div>
     <section id="dashboard" class="view active"><div class="grid kpi" id="kpis"></div><div class="dashboard-stock-row"><div class="card"><div class="section-title"><div><h3>Top 10 produits en stock</h3><p>Lecture rapide par volume disponible.</p></div><button class="btn sm" onclick="showView('stock')">Voir Stock</button></div><div class="chart-bars" id="topBars"></div></div><div class="card"><div class="section-title"><div><h3>Top 10 produits stock faible</h3><p>Lecture rapide des produits les moins disponibles.</p></div><button class="btn sm" onclick="showView('stock')">Voir Stock</button></div><div class="chart-bars" id="lowBars"></div></div></div><div class="card" style="margin-top:11px"><div class="section-title"><div><h3>Distributions prévues</h3><p>Distributions planifiées avec une date future.</p></div><button class="btn sm" onclick="showView('distributions')">Voir distributions</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Destination</th><th>Bénéficiaires</th><th>Produits prévus</th><th>Unités prévues</th><th>Actions</th></tr></thead><tbody id="futureDistributions"></tbody></table></div></div><div class="card" style="margin-top:11px"><div class="section-title"><div><h3>Derniers mouvements</h3><p>Entrées, sorties, pertes et corrections.</p></div><div class="toolbar"><button class="btn sm" onclick="showView('distributions')">Voir distributions</button><button class="btn sm" onclick="showView('stock')">Voir stock</button></div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Produit</th><th>Quantité</th><th>Réf.</th><th>Actions</th></tr></thead><tbody id="recentMovements"></tbody></table></div></div></section>
     <section id="stock" class="view"><div class="section-title"><div><h3>Stock</h3><p>Stock et inventaire des produits suivis.</p></div><div class="toolbar"><button class="btn primary sm" onclick="openProductModal()">Ajouter un produit</button><input class="search" id="stockSearch" placeholder="Rechercher produit…" oninput="renderStock()"></div></div><div class="table-wrap"><table><thead><tr><th class="sortable" onclick="sortTable('stock','name')">Produit<span id="sort-stock-name"></span></th><th class="sortable" onclick="sortTable('stock','category')">Catégorie</th><th class="sortable" onclick="sortTable('stock','unit')">Unité</th><th class="sortable" onclick="sortTable('stock','stock')">Stock actuel</th><th class="sortable" onclick="sortTable('stock','expiryDate')">DLC</th><th class="sortable" onclick="sortTable('stock','received')">Reçu</th><th class="sortable" onclick="sortTable('stock','distributed')">Distribué</th><th class="sortable" onclick="sortTable('stock','losses')">Pertes</th><th>Actions</th></tr></thead><tbody id="stockRows"></tbody></table></div></section>
     <section id="distributions" class="view"><div class="section-title"><div><h3>Sessions de distribution</h3><p>Regroupement par date, lieu et nombre de bénéficiaires.</p></div><div class="toolbar"><button class="btn sm" onclick="openBeneficiaryListsModal()">Consulter la liste</button><button class="btn primary sm" onclick="openDistributionModal()">Ajouter une distribution</button><input class="search" id="distributionSearch" placeholder="Rechercher distribution…" oninput="renderDistributions()"></div></div><div class="table-wrap"><table><thead><tr><th class="sortable" onclick="sortTable('distributions','status')">Status</th><th class="sortable" onclick="sortTable('distributions','date')">Date</th><th class="sortable" onclick="sortTable('distributions','beneficiaries')">Bénéficiaires</th><th class="sortable" onclick="sortTable('distributions','items')">Produits distribués</th><th class="sortable" onclick="sortTable('distributions','units')">Unités sorties</th><th>Actions</th></tr></thead><tbody id="distRows"></tbody></table></div></section>
@@ -27,6 +28,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig={
       apiKey:'AIzaSyDIoqG3m151RHnxnJDUAsOoBc7yJfYXEcw',
@@ -50,7 +52,8 @@
       logs:'logs'
     };
     const FIREBASE_READY=()=>firebaseConfig.apiKey&&!String(firebaseConfig.apiKey).startsWith('REMPLACE')&&firebaseConfig.projectId&&!String(firebaseConfig.projectId).startsWith('REMPLACE');
-    let firebaseApp=null,db=null,storage=null,firebaseEnabled=false,firebaseLoading=false,firebaseSaveTimer=null;
+    let firebaseApp=null,db=null,storage=null,auth=null,recaptchaVerifier=null,phoneConfirmationResult=null,currentFirebaseUser=null,firebaseEnabled=false,firebaseLoading=false,firebaseSaveTimer=null;
+    const ALLOWED_PHONE_USERS=['+32465332185','+32488541890','+32485938118'];
     const STORAGE_KEY='rafael-fead-anderlecht-v3-memory-safe';
     const AUTH_KEY='rafael-fead-auth-user';
     const SCHEMA_VERSION='blank-no-memory-v11';
@@ -80,6 +83,8 @@
         firebaseApp=firebase.apps?.length?firebase.app():firebase.initializeApp(firebaseConfig);
         db=firebase.firestore();
         storage=firebase.storage();
+        auth=firebase.auth();
+        auth.languageCode='fr';
         firebaseEnabled=true;
         console.info('Firebase connecté',firebaseConfig.projectId);
         return true;
@@ -276,7 +281,7 @@
     function sortTable(view,key){const cfg=tableSort[view]||(tableSort[view]={key,dir:'asc'});cfg.dir=cfg.key===key?(cfg.dir==='asc'?'desc':'asc'):'asc';cfg.key=key;if(view==='stock')renderStock();if(view==='distributions')renderDistributions();if(view==='partenaires')renderPartners();if(view==='beneficiaires')renderBeneficiaries();if(view==='benevoles')renderVolunteers();}
     function getAllProducts(){return [...foodProducts,...hygieneProducts]}
     function product(id){return getAllProducts().find(p=>p.id===id)||{id,name:'Produit inconnu',unit:'u',category:'—',expiryDate:''}}
-    function currentUser(){return 'Utilisateur'}
+    function currentUser(){return currentFirebaseUser?.phoneNumber||'Utilisateur'}
     function typePill(t){const map={entree:['Entrée','green'],sortie:['Distribution','blue'],perte:['Destruction','red'],correction:['Correction','orange']};const x=map[t]||[t,'gray'];return `<span class="pill ${x[1]}">${x[0]}</span>`}
     function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
     function storageWarning(show=true){const el=document.getElementById('storageWarning');if(!el)return;el.classList.remove('show');el.style.display='none'}
@@ -364,7 +369,80 @@
         return state}catch(e){state=base;syncAutomaticBeneficiaryCategories();saveStorage();return state}}
     function saveState(){state.schemaVersion=SCHEMA_VERSION;state.foodProducts=foodProducts;state.hygieneProducts=hygieneProducts;state.partners=normalizePartners(partners);state.beneficiaries=normalizeBeneficiaries(beneficiaries);state.volunteers=normalizeVolunteers(volunteers);state.beneficiaryLists=normalizeBeneficiaryLists(state.beneficiaryLists||[]);syncAutomaticBeneficiaryCategories();saveStorage();if(firebaseEnabled)scheduleFirebaseSave();toast(firebaseEnabled?'Changement enregistré, sync Firebase…':NO_PERSISTENCE?'Changement appliqué pour cette session uniquement':storageStatus.available?'Sauvegardé localement':'Sauvegardé en mémoire');renderAll()}
     function addLog(category,action,detail,section='Dashboard',user=currentUser()){if(!state.logs)state.logs=[];state.logs.unshift({id:uid(),at:nowLog(),category,action,detail,user,section,createdAt:new Date().toISOString()});state.logs=state.logs.slice(0,300);saveStorage();if(firebaseEnabled)scheduleFirebaseSave();renderLogs()}
-    function initAuth(){document.getElementById('appRoot').style.display='block'}
+    function normalizePhoneForAuth(value=''){
+      let n=String(value).replace(/[^0-9+]/g,'');
+      if(n.startsWith('00')) n='+'+n.slice(2);
+      if(n.startsWith('0')) n='+32'+n.slice(1);
+      if(!n.startsWith('+')) n='+'+n;
+      return n;
+    }
+    function showLoginError(msg=''){
+      const el=document.getElementById('loginError');
+      if(!el)return;
+      el.textContent=msg;
+      el.classList.toggle('show',!!msg);
+    }
+    function ensureRecaptcha(){
+      if(recaptchaVerifier)return recaptchaVerifier;
+      recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'});
+      recaptchaVerifier.render();
+      return recaptchaVerifier;
+    }
+    async function sendPhoneCode(){
+      showLoginError('');
+      if(!auth){showLoginError('Firebase Auth n’est pas initialisé.');return}
+      const phone=normalizePhoneForAuth(document.getElementById('authPhone')?.value||'');
+      if(!ALLOWED_PHONE_USERS.includes(phone)){showLoginError('Numéro non autorisé pour cette plateforme.');return}
+      try{
+        phoneConfirmationResult=await auth.signInWithPhoneNumber(phone,ensureRecaptcha());
+        toast('Code SMS envoyé');
+      }catch(e){
+        console.error('Phone auth send error',e);
+        showLoginError('Impossible d’envoyer le SMS. Vérifie le numéro, les règles Firebase et le domaine autorisé.');
+        if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}}
+        recaptchaVerifier=null;
+      }
+    }
+    async function verifyPhoneCode(){
+      showLoginError('');
+      const code=(document.getElementById('authCode')?.value||'').trim();
+      if(!phoneConfirmationResult){showLoginError('Demande d’abord un code SMS.');return}
+      if(!code){showLoginError('Entre le code SMS reçu.');return}
+      try{
+        await phoneConfirmationResult.confirm(code);
+        toast('Connexion validée');
+      }catch(e){
+        console.error('Phone auth verify error',e);
+        showLoginError('Code SMS incorrect ou expiré.');
+      }
+    }
+    async function logoutUser(){
+      if(auth) await auth.signOut();
+      currentFirebaseUser=null;
+      document.getElementById('appRoot').style.display='none';
+      document.getElementById('loginScreen').classList.remove('hidden');
+      toast('Déconnecté');
+    }
+    function initAuth(){
+      const appRoot=document.getElementById('appRoot'),login=document.getElementById('loginScreen'),badge=document.getElementById('authUserBadge');
+      if(!auth){appRoot.style.display='block';login?.classList.add('hidden');return}
+      auth.onAuthStateChanged(async user=>{
+        const phone=user?.phoneNumber||'';
+        if(user&&ALLOWED_PHONE_USERS.includes(phone)){
+          currentFirebaseUser=user;
+          if(badge)badge.textContent=phone;
+          login?.classList.add('hidden');
+          appRoot.style.display='block';
+          if(firebaseEnabled)await loadAllFromFirebase();
+        }else{
+          if(user) await auth.signOut();
+          currentFirebaseUser=null;
+          if(badge)badge.textContent='Non connecté';
+          appRoot.style.display='none';
+          login?.classList.remove('hidden');
+        }
+      });
+    }
     function movementsFor(pid){return state.movements.filter(m=>m.productId===pid)}
     function signedQty(m){if(m.type==='entree'||m.type==='correction')return +m.qty||0;if(m.type==='sortie'&&m.distributionStatus==='Annulé')return 0;return -Math.abs(+m.qty||0)}
     function stockOf(pid){return movementsFor(pid).reduce((s,m)=>s+signedQty(m),0)}
@@ -726,7 +804,7 @@
     function confirmCategoryPopup(){const name=document.getElementById('categoryPopupInput').value.trim();if(!name)return;if(!state.categories)state.categories=[...defaultCategories];if(!state.categories.some(c=>c.toLowerCase()===name.toLowerCase()))state.categories.push(name);state.categories.sort((a,b)=>a.localeCompare(b,'fr'));const sel=document.getElementById(pendingCategorySelectId);if(sel){sel.innerHTML=categoryOptions(name);sel.value=name}document.getElementById('categoryPopup').classList.remove('show');pendingCategorySelectId=null;saveState()}
     function openProductModal(){openModal('Ajouter un produit',`<form id="productForm" class="form-block"><div class="beneficiary-section"><div class="beneficiary-section-title">Ajouter un nouveau produit</div><div class="beneficiary-section-body"><div class="form-field"><label>Nom du produit</label><input name="name" required></div><div class="form-field"><label>Catégorie</label><select name="category" id="productCategory" onchange="handleCategorySelect(this)">${categoryOptions()}</select></div><div class="form-field"><label>Quantité</label><input name="initialQty" type="number" min="0" value="0"></div><div class="form-field"><label>Unité</label><select name="unit">${unitOptions()}</select></div><div class="form-field"><label>Date limite de consommation</label><input name="expiryDate" type="date"></div><div class="form-field"><label>Note produit</label><textarea name="note"></textarea></div></div></div><div style="display:flex;gap:10px;justify-content:flex-end"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);document.getElementById('productForm').onsubmit=submitProductForm}
     function fillExistingProductForm(){const p=getAllProducts().find(x=>x.id===document.getElementById('existingProductSelect').value);if(!p)return;document.getElementById('existingCategory').innerHTML=categoryOptions(p.category);document.getElementById('existingCategory').value=p.category;document.getElementById('existingUnit').innerHTML=unitOptions(p.unit);document.getElementById('existingUnit').value=p.unit;document.getElementById('existingQty').value='';document.getElementById('existingExpiryDate').value=p.expiryDate||'';document.getElementById('existingNote').value=p.note||''}
-    function submitProductForm(e){e.preventDefault();const fd=new FormData(e.target),newName=(fd.get('name')||'').trim();if(!newName){alert('Indique le nom du nouveau produit ou sélectionne un produit existant.');return}const id='prod-'+slug(newName)+'-'+Date.now().toString(36),qty=+fd.get('initialQty')||0,p={id,name:newName,unit:fd.get('unit'),category:fd.get('category'),min:0,ratioMonth:1,expiryDate:fd.get('expiryDate')||'',note:fd.get('note')||''};foodProducts.push(p);if(qty>0)state.movements.push({id:uid(),date:new Date().toISOString().slice(0,10),type:'entree',productId:id,qty,source:'Création produit',ref:'PROD-'+Date.now().toString(36).toUpperCase(),beneficiaries:0,owner:currentUser(),support:'',note:'Quantité initiale'});addLog('Stock','Création produit',newName,'Stock');closeModal();saveState();openGeneratedProductEmail(p,{action:'Création produit',quantity:qty,note:p.note})}
+    function submitProductForm(e){e.preventDefault();const fd=new FormData(e.target),newName=(fd.get('name')||'').trim();if(!newName){alert('Indique le nom du nouveau produit ou sélectionne un produit existant.');return}const id='prod-'+slug(newName)+'-'+Date.now().toString(36),qty=+fd.get('initialQty')||0,p={id,name:newName,unit:fd.get('unit'),category:fd.get('category'),min:0,ratioMonth:1,expiryDate:fd.get('expiryDate')||'',note:fd.get('note')||''};foodProducts.push(p);if(qty>0)state.movements.push({id:uid(),date:new Date().toISOString().slice(0,10),type:'entree',productId:id,qty,source:'Création produit',ref:'PROD-'+Date.now().toString(36).toUpperCase(),beneficiaries:0,owner:currentUser(),support:'',note:'Quantité initiale'});addLog('Stock','Création produit',newName,'Stock');closeModal();saveState()}
     function openEditProductModal(pid){const p=product(pid);openModal('Modifier produit',`<form id="editProductForm" class="form-block"><div class="form-field"><label>Nom du produit</label><input name="name" value="${escAttr(p.name)}" required></div><div class="form-field"><label>Catégorie</label><select name="category" id="editProductCategory" onchange="handleCategorySelect(this)">${categoryOptions(p.category)}</select></div><div class="form-field"><label>Unité</label><select name="unit">${unitOptions(p.unit)}</select></div><div class="form-field"><label>Date limite de consommation</label><input name="expiryDate" type="date" value="${p.expiryDate||''}"></div><div class="form-field"><label>Note produit</label><textarea name="note">${esc(p.note||'')}</textarea></div><div style="display:flex;gap:10px;justify-content:flex-end"><button type="button" class="btn" onclick="closeModal()">Annuler</button><button class="btn primary">Enregistrer</button></div></form>`);document.getElementById('editProductForm').onsubmit=e=>{e.preventDefault();const fd=new FormData(e.target);p.name=fd.get('name').trim();p.category=fd.get('category');p.unit=fd.get('unit');p.expiryDate=fd.get('expiryDate')||'';p.note=fd.get('note')||'';addLog('Stock','Édition produit',p.name,'Stock');closeModal();saveState()}}
     function deleteProduct(pid){const p=product(pid);if(!confirm(`Supprimer définitivement ${p.name} et ses mouvements associés ?`))return;foodProducts=foodProducts.filter(x=>x.id!==pid);hygieneProducts=hygieneProducts.filter(x=>x.id!==pid);state.movements=state.movements.filter(m=>m.productId!==pid);addLog('Stock','Suppression produit',p.name,'Stock');closeModal();saveState()}
     function openProduct(pid){const p=product(pid),today=new Date().toISOString().slice(0,10);const rows=movementsFor(pid).sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr class="${m.date>today?'future-row':''}"><td>${dateFr(m.date)}</td><td>${typePill(m.type)}</td><td>${esc(m.ref)}</td><td class="num">${m.type==='entree'||m.type==='correction'?'+':'-'}${fmt(Math.abs(m.qty))}</td><td>${esc(m.source)}</td><td>${esc(m.note||'—')}</td></tr>`).join('')||`<tr><td colspan="6">Aucun mouvement pour ce produit.</td></tr>`;openModal(p.name,`<div class="product-detail-actions"><button class="btn primary sm" onclick="openProductActionModal('${pid}','entree')">Ajouter</button><button class="btn primary sm" onclick="openProductActionModal('${pid}','sortie')">Distribuer</button><button class="btn primary sm" onclick="openProductActionModal('${pid}','perte')">Détruire</button></div><div class="grid product-detail-kpi"><div class="card compact"><span class="pill blue">Stock</span><h2>${fmt(stockOf(pid))} ${esc(p.unit)}</h2></div><div class="card compact"><span class="pill green">Reçu</span><h2>${fmt(receivedOf(pid))}</h2></div><div class="card compact"><span class="pill orange">Distribué</span><h2>${fmt(distributedOf(pid))}</h2></div><div class="card compact"><span class="pill red">Pertes</span><h2>${fmt(lossesOf(pid))}</h2></div></div><div class="form-block" style="margin-top:11px"><div class="form-field"><label>Nom du produit</label><input value="${escAttr(p.name)}" readonly></div><div class="form-field"><label>Catégorie</label><input value="${escAttr(p.category)}" readonly></div><div class="form-field"><label>Unité</label><input value="${escAttr(p.unit)}" readonly></div><div class="form-field"><label>Date limite de consommation</label><input value="${p.expiryDate?dateFr(p.expiryDate):'Non renseignée'}" readonly></div><div class="form-field"><label>Note produit</label><textarea readonly>${esc(p.note||'')}</textarea></div></div><div class="table-wrap" style="margin-top:11px"><table><thead><tr><th>Date</th><th>Type</th><th>Réf.</th><th>Quantité</th><th>Source</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div>`)}
@@ -745,7 +823,6 @@
       }
       if(+input.value<1&&input.value!=='') input.value=1;
     }
-    function openGeneratedProductEmail(p,meta={}){const to='bouhlal.achraf@live.fr',subject=p.name,body=['Bonjour,','','Un produit a été enregistré dans la plateforme Rafael FEAD CRM.','',`Action : ${meta.action||'Enregistrement produit'}`,`Nom du produit : ${p.name}`,`Catégorie : ${p.category}`,`Quantité enregistrée : ${fmt(meta.quantity||0)} ${p.unit}`,`Unité : ${p.unit}`,`Date limite de consommation : ${p.expiryDate?dateFr(p.expiryDate):'Non renseignée'}`,`Note : ${meta.note||p.note||'—'}`,'',`Stock actuel : ${fmt(stockOf(p.id))} ${p.unit}`,'','Plateforme : Rafael FEAD CRM — Anderlecht'].join(String.fromCharCode(10));addLog('Export','Email produit préparé',`Email produit préparé pour ${to} — ${p.name}`,'Stock');window.location.href=`mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
     function distributionProductRowHTML(index,selectedId=''){
       const all=getAllProducts();
       const selected=selectedId||'';
@@ -1021,7 +1098,7 @@ ASBL Rafaël`;
     function downloadSectionCSV(){const data=sectionExportData(currentView);addLog('Export','Export Excel / CSV',`Téléchargement section ${currentView}`,'Log');download(data.filename,buildCSV(data.headers,data.rows),'text/csv;charset=utf-8')}
     function renderAll(){renderKpis();renderTopBars();renderRecent();renderStock();renderDistributions();renderPartners();renderBeneficiaries();renderVolunteers();renderCompliance();renderLogs()}
     function runSelfTests(){console.assert(Array.isArray(getAllProducts()),'test: produits array');console.assert(Array.isArray(beneficiaries),'test: bénéficiaires array');console.assert(Array.isArray(distributionGroups()),'test: distributions array');console.assert(typeof safeGet==='function'&&typeof safeSet==='function','test: storage wrapper existe');const before=storageStatus.available;storageStatus.available=false;console.assert(safeSet('__test_memory__','ok')===false,'test: fallback mémoire si storage off');console.assert(safeGet('__test_memory__')==='ok','test: lecture fallback mémoire');storageStatus.available=before;const sample=JSON.stringify(compactStateForStorage());console.assert(sample.length<4500000,'test: snapshot compact');console.assert(!sample.includes('data:application/pdf'),'test: pas de gros base64 PDF dans storage');console.assert((state.beneficiaryLists||[]).every(l=>Array.isArray(l.beneficiaryIds)),'test: listes bénéficiaires valides');console.log('Self-tests CRM OK',{products:getAllProducts().length,beneficiaries:beneficiaries.length,distributions:distributionGroups().length,storage:storageStatus.mode,snapshotBytes:sample.length})}
-    document.addEventListener('DOMContentLoaded',async()=>{state=loadState();navInit();renderActions();renderAll();initAuth();initFirebase();if(firebaseEnabled)await loadAllFromFirebase();runSelfTests();storageWarning(false)});
+    document.addEventListener('DOMContentLoaded',async()=>{state=loadState();navInit();renderActions();renderAll();initFirebase();initAuth();runSelfTests();storageWarning(false)});
   </script>
 </body>
 </html>
