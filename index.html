@@ -77,7 +77,7 @@
     function cleanForFirestore(value,depth=0,inArray=false){if(depth>18)return'[max-depth]';if(value===undefined||typeof value==='function')return null;if(value===null)return null;if(typeof value==='number')return Number.isFinite(value)?value:0;if(typeof value==='string'){if(value.startsWith('data:')&&value.length>900)return'[file-data-removed-use-downloadURL]';return value}if(value instanceof Date)return value.toISOString();if(Array.isArray(value)){const arr=value.map(v=>cleanForFirestore(v,depth+1,true));return inArray?{__array:true,items:arr}:arr}if(typeof value==='object'){if(value instanceof Set)return cleanForFirestore([...value],depth+1,inArray);const out={};Object.keys(value).forEach(k=>{out[k]=cleanForFirestore(value[k],depth+1,false)});return out}return value}
     function restoreFromFirestore(value){if(value&&typeof value==='object'&&value.__array===true&&Array.isArray(value.items))return value.items.map(restoreFromFirestore);if(Array.isArray(value))return value.map(restoreFromFirestore);if(value&&typeof value==='object'){const out={};Object.keys(value).forEach(k=>{out[k]=restoreFromFirestore(value[k])});return out}return value}
     function appSnapshot(){return cleanForFirestore({foodProducts,hygieneProducts,beneficiaries,partners,volunteers,state,updatedAt:new Date().toISOString(),updatedBy:currentUser(),version:'crm-rafael-v1'})}
-    function applySnapshot(data){if(!data)return;const restored=restoreFromFirestore(data);foodProducts=restored.foodProducts||foodProducts;hygieneProducts=restored.hygieneProducts||[];beneficiaries=restored.beneficiaries||beneficiaries;partners=restored.partners||partners;volunteers=restored.volunteers||volunteers;state=restored.state||state;normalizeSettings();normalizeAllProductCategoryUnits();ensureExtraAsblProducts();purgeNonActiveStockProducts();normalizeVolunteerDemoNotes();normalizeBeneficiaryDemoNotes();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();purgeLegacyDistributionSessionsOnce();clearDistributionsAndBeneficiariesOnce();clearAllOperationalDataSituationZeroOnce();clearRecentMovementsDashboardOnce();clearDistributionsOnlyV52Once();clearExistingDistributionsV54Once()}
+    function applySnapshot(data){if(!data)return;const restored=restoreFromFirestore(data);foodProducts=restored.foodProducts||foodProducts;hygieneProducts=restored.hygieneProducts||[];beneficiaries=restored.beneficiaries||beneficiaries;partners=restored.partners||partners;volunteers=restored.volunteers||volunteers;state=restored.state||state;normalizeSettings();normalizeAllProductCategoryUnits();ensureExtraAsblProducts();purgeNonActiveStockProducts();normalizeVolunteerDemoNotes();normalizeBeneficiaryDemoNotes();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();purgeLegacyDistributionSessionsOnce();clearDistributionsAndBeneficiariesOnce();clearAllOperationalDataSituationZeroOnce();clearRecentMovementsDashboardOnce();clearDistributionsOnlyV52Once();clearExistingDistributionsV54Once();clearAllMovementHistoryKeepStockV59Once()}
     async function loadFirebaseState(){if(!await initFirebase())return false;try{isHydratingFromFirebase=true;const ref=firestoreDb.doc(FIREBASE_DOC_PATH),snap=await ref.get();if(snap.exists){applySnapshot(snap.data());toast('Données Firebase chargées');console.log('Firebase load OK',FIREBASE_DOC_PATH,snap.updateTime?.toDate?.()?.toISOString?.()||'');if(state&&state.needsFirebaseCleanupSave){setTimeout(()=>{state.needsFirebaseCleanupSave=false;saveFirebaseStateNow()},350)}return true}await ref.set(appSnapshot(),{merge:false});toast('Firebase initialisé avec les données seed');console.log('Firebase initial document created',FIREBASE_DOC_PATH);return true}catch(e){console.error('Firebase load error',e);toast('Erreur chargement Firebase : '+firebaseErrorMessage(e));return false}finally{isHydratingFromFirebase=false}}
     function saveFirebaseStateDebounced(){if(isHydratingFromFirebase)return;clearTimeout(remoteSaveTimer);remoteSaveTimer=setTimeout(()=>saveFirebaseStateNow(),300)}
     async function saveFirebaseStateNow(){if(isHydratingFromFirebase)return false;if(!firebaseReady||!firestoreDb){const ok=await initFirebase();if(!ok){toast('Firebase non connecté : sauvegarde impossible');return false}}try{const nextCounter=((state&&state.firebaseSaveCounter)||0)+1;if(state)state.firebaseSaveCounter=nextCounter;const payload=appSnapshot();payload.saveCounter=nextCounter;payload.updatedAt=new Date().toISOString();payload.updatedBy=currentUser();await firestoreDb.doc(FIREBASE_DOC_PATH).set(payload,{merge:false});const check=await firestoreDb.doc(FIREBASE_DOC_PATH).get();lastRemoteSaveAt=Date.now();const saved=check.exists&&check.data()?.updatedAt===payload.updatedAt;console.log('Firebase save OK',FIREBASE_DOC_PATH,{updatedAt:payload.updatedAt,saveCounter:payload.saveCounter,verified:saved});toast(saved?'Sauvegardé sur Firebase':'Firebase écrit, vérification incertaine');return true}catch(e){console.error('Firebase save error',e);const code=String(e?.code||'');if(code.includes('permission-denied'))toast('Firebase refusé : vérifie les règles Firestore');else if(code.includes('resource-exhausted')||String(e?.message||'').toLowerCase().includes('size'))toast('Firebase refusé : document trop lourd');else toast('Erreur Firebase : '+firebaseErrorMessage(e));return false}}
@@ -116,7 +116,8 @@
     function movementsFor(pid){return (state.movements||[]).filter(m=>m.productId===pid)}
     function signedQty(m){if(m.type==='entree'||m.type==='correction'||m.type==='adjust_received')return +m.qty||0;if(m.type==='retour_annulation'||m.type==='retour_non_reclame')return 0;if(m.type==='adjust_distributed'||m.type==='adjust_losses')return -(+m.qty||0);if(m.type==='sortie'&&(m.distributionStatus==='Annulé'||m.removedFromDistribution))return 0;if(m.type==='sortie')return m.distributionStatus==='Distribué'?-Math.abs(+m.qty||0):0;if(m.type==='perte')return -Math.abs(+m.qty||0);return 0}
     function movementDisplayQty(m){const raw=+m.qty||0,q=Math.abs(raw),u=esc(product(m.productId).unit);let sign=signedQty(m)>=0?'+':'-';return `${sign}${fmt(q)} ${u}`}
-    function stockOf(pid){return movementsFor(pid).reduce((s,m)=>s+signedQty(m),0)}
+    function productBaseStock(pid){const p=getAllProducts().find(x=>x.id===pid);const n=Number(p?.baseStock);return Number.isFinite(n)?n:0}
+    function stockOf(pid){return productBaseStock(pid)+movementsFor(pid).reduce((s,m)=>s+signedQty(m),0)}
     function stockBeforeMovement(m){if(!m||m.type!=='sortie'||m.distributionStatus==='Annulé')return stockOf(m.productId);return stockOf(m.productId)+Math.abs(+m.qty||0)}
     function stockAfterMovement(m){if(!m||m.type!=='sortie'||m.distributionStatus==='Annulé')return stockOf(m.productId);return stockBeforeMovement(m)-Math.abs(+m.qty||0)}
     function receivedOf(pid){return Math.max(0,movementsFor(pid).reduce((s,m)=>s+(m.type==='entree'?Math.abs(+m.qty||0):(m.type==='adjust_received'?(+m.qty||0):0)),0))}
@@ -325,6 +326,28 @@
       }
       console.log('Distribution existante vidée V54. Mouvements supprimés :', beforeMovements-state.movements.length);
     }
+    function clearAllMovementHistoryKeepStockV59Once(){
+      if(!state)return;
+      if(state.allMovementHistoryClearedV59)return;
+      state.movements=state.movements||[];
+      const beforeMovements=state.movements.length;
+      const products=getAllProducts();
+      products.forEach(p=>{
+        const current=stockOf(p.id);
+        p.baseStock=Math.max(0,+current||0);
+      });
+      state.movements=[];
+      state.distributionBeneficiaryImports={};
+      state.beneficiaryLists=[];
+      state.consolidatedBeneficiaries=[];
+      state.deletedConsolidatedBeneficiaryKeys=[];
+      state.nextBeneficiaryRegistryId=1;
+      state.logs=[];
+      state.recentMovementsClearedAt=new Date().toISOString();
+      state.allMovementHistoryClearedV59=true;
+      state.needsFirebaseCleanupSave=true;
+      console.log('Historique mouvements supprimé V59. Stock conservé en baseStock. Mouvements supprimés :', beforeMovements);
+    }
     function distributionImportStore(){state.distributionBeneficiaryImports=state.distributionBeneficiaryImports||{};return state.distributionBeneficiaryImports}
     function distributionImportedRows(ref){return distributionImportStore()[ref]?.rows||[]}
     function distributionImportedStats(ref){const rows=distributionImportedRows(ref);if(rows.length)return distributionStatsFromRows(rows.filter(r=>!r.nonClaimed));return distributionRows(ref).reduce((found,m)=>found||m.importStats,null)||distributionRows(ref).reduce((found,m)=>found||m.csvStats,null)||distributionStatsFromRows(rows)}
@@ -450,7 +473,7 @@
       // puis Firebase remplace tout au login via loadFirebaseState().
       normalizeSettings();normalizeAllProductCategoryUnits();ensureExtraAsblProducts();purgeNonActiveStockProducts();normalizeVolunteerDemoNotes();normalizeBeneficiaryDemoNotes();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();purgeLegacyDistributionSessionsOnce();clearDistributionsAndBeneficiariesOnce();clearAllOperationalDataSituationZeroOnce();
     }
-    function saveState(){state.categories=mergedCategories();normalizeSettings();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();clearDistributionsAndBeneficiariesOnce();clearAllOperationalDataSituationZeroOnce();clearRecentMovementsDashboardOnce();clearDistributionsOnlyV52Once();clearExistingDistributionsV54Once();rebuildConsolidatedBeneficiaries();state.logs=state.logs||[];state.firebaseOnlyUpdatedAt=new Date().toISOString();toast(isFirebaseConfigured()?'Sauvegarde Firebase en cours…':'Firebase non configuré : aucune sauvegarde locale');saveFirebaseStateNow();renderAll()}
+    function saveState(){state.categories=mergedCategories();normalizeSettings();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();clearDistributionsAndBeneficiariesOnce();clearAllOperationalDataSituationZeroOnce();clearRecentMovementsDashboardOnce();clearDistributionsOnlyV52Once();clearExistingDistributionsV54Once();clearAllMovementHistoryKeepStockV59Once();rebuildConsolidatedBeneficiaries();state.logs=state.logs||[];state.firebaseOnlyUpdatedAt=new Date().toISOString();toast(isFirebaseConfigured()?'Sauvegarde Firebase en cours…':'Firebase non configuré : aucune sauvegarde locale');saveFirebaseStateNow();renderAll()}
     function addLog(category,action,detail,section='Dashboard',user=currentUser()){state.logs=state.logs||[];state.logs.unshift({id:uid(),at:nowLog(),category,action,detail,user,section,createdAt:new Date().toISOString()});state.logs=state.logs.slice(0,300);state.firebaseOnlyUpdatedAt=new Date().toISOString();renderLogs()}
     function navInit(){document.getElementById('nav').innerHTML=navItems.map((n,i)=>`<button class="nav-btn ${i===0?'active':''}" onclick="showView('${n[0]}')">${n[1]}</button>`).join('')}
     function renderActions(){document.getElementById('contextActions').innerHTML=`<button class="btn sm" onclick="downloadSectionCSV()">Télécharger CSV</button>`}
