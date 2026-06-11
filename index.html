@@ -34,7 +34,7 @@
   <div class="login-screen" id="loginScreen">
     <div class="login-card">
       <h1>Connexion ASBL Rafael</h1>
-      <p>Connecte-toi avec ton compte Firebase autorisé.</p>
+      
       <div class="login-error" id="loginError"></div>
       <form class="login-form" id="firebaseLoginForm">
         <div class="form-field"><label>Email</label><input id="loginEmail" type="email" placeholder="admin@asblrafael.be" autocomplete="username" required></div>
@@ -382,6 +382,54 @@
       state.compotes700EntryV61=true;
       state.needsFirebaseCleanupSave=true;
       console.log('Entrée Compotes +700 ajoutée en stock initial.');
+    }
+
+
+    function createBaseState(){
+      foodProducts=[];hygieneProducts=[];beneficiaries=[];partners=[];volunteers=[];
+      state={
+        categories:[...defaultCategories],
+        movements:[],
+        inventory:{},
+        beneficiaryLists:[],
+        settings:defaultSettings(),
+        checklist:defaultComplianceChecklist(),
+        complianceDocuments:[],
+        logs:[],
+        distributionBeneficiaryImports:{},
+        consolidatedBeneficiaries:[],
+        nextBeneficiaryRegistryId:1,
+        distributionSessionsClearedV2:true
+      };
+      if(typeof resetComplianceToVerifyOther==='function')resetComplianceToVerifyOther();
+      return state;
+    }
+    function saveLocalState(triggerRemote=true){
+      // Mode Firebase only : aucune donnée CRM n'est enregistrée dans localStorage.
+      // Cette fonction est gardée pour compatibilité avec le reste du code.
+      if(triggerRemote&&!isHydratingFromFirebase)saveFirebaseStateDebounced();
+    }
+    function loadLocalState(){
+      // Mode Firebase only : on ignore volontairement le localStorage.
+      // Les données affichées avant connexion viennent du seed temporaire, puis Firebase remplace tout au login.
+      normalizeSettings();normalizeAllProductCategoryUnits();ensureExtraAsblProducts();purgeNonActiveStockProducts();normalizeVolunteerDemoNotes();normalizeBeneficiaryDemoNotes();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();purgeLegacyDistributionSessionsOnce();
+    }
+    function saveState(){
+      state.categories=mergedCategories();
+      normalizeSettings();ensureFullComplianceChecklist();purgeDemoBeneficiariesOnce();
+      if(typeof rebuildConsolidatedBeneficiaries==='function')rebuildConsolidatedBeneficiaries();
+      state.logs=state.logs||[];
+      state.firebaseOnlyUpdatedAt=new Date().toISOString();
+      toast(isFirebaseConfigured()?'Sauvegarde Firebase en cours…':'Firebase non configuré : aucune sauvegarde locale');
+      saveFirebaseStateNow();
+      renderAll();
+    }
+    function addLog(category,action,detail,section='Dashboard',user=currentUser()){
+      state.logs=state.logs||[];
+      state.logs.unshift({id:uid(),at:nowLog(),category,action,detail,user,section,createdAt:new Date().toISOString()});
+      state.logs=state.logs.slice(0,300);
+      state.firebaseOnlyUpdatedAt=new Date().toISOString();
+      if(typeof renderLogs==='function')renderLogs();
     }
 
     function clearLogs(){state.logs=[];addLog('Système','Logs vidés','Historique vidé','Log');saveState()}
