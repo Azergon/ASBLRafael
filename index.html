@@ -266,6 +266,11 @@ FEAD	Huile de tournesol 1 Litre	Huiles et matières grasses	1950	bouteilles	2026
       state.stockProductsClearedV71=false;
       state.stockInitialForcedV70=false;
     }
+    // Compatibilité : anciennes routines appelées par des versions précédentes du CRM.
+    // Les réinitialisations V52/V54 ci-dessous prennent déjà en charge ce nettoyage.
+    function purgeLegacyDistributionSessionsOnce(){ return; }
+    function clearDistributionsAndBeneficiariesOnce(){ return; }
+
     function clearAllOperationalDataSituationZeroOnce(){
       if(!state)return;
       if(state.situationZeroClearedV47)return;
