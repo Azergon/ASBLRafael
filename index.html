@@ -1368,6 +1368,31 @@ nav .donate-nav-cta:hover, nav .donate-nav-cta.active {
 }
 nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!important; }
 </style>
+
+<!-- Liens de référence fournis (pas de nouvelle carte ajoutée) :
+  Les Petits Riens / Spullenhulp : https://petitsriens.be/accueil/
+  CPAS Anderlecht : https://cpas-ocmw.anderlecht.be/
+-->
+
+<style id="vsa-user-new-images">
+/* Notre Histoire : image PNG derrière la chronologie ; assombrissement pour la lisibilité. */
+#histoire .history-panel-bg{
+  background-image:linear-gradient(120deg,rgba(15,25,38,.88),rgba(15,25,38,.72)),url("assets/png/imageback2.png")!important;
+  background-position:center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+/* Les PNG illustrations-01 à illustrations-20 remplacent automatiquement les aperçus. */
+#galerie .gallery .gallery-photo.gallery-image-loaded{
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  border:5px solid var(--lead)!important;
+  box-shadow:var(--shadow)!important;
+}
+#galerie .gallery .gallery-photo.gallery-image-loaded span,
+#galerie .gallery .gallery-photo.gallery-image-loaded small{display:none!important;}
+</style>
 </head>
 <body class="">
 <div aria-hidden="true" class="intro-loader">
@@ -1451,14 +1476,14 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 </div>
 <div class="split">
 <div class="image-box" style="background-image:url('assets/png/illustration-02.png');"></div>
-<div class="panel-dark">
+<div class="panel-dark history-panel-bg">
 <p class="eyebrow">Notre histoire</p>
 <h2>De l’ancienne clinique au Village Sainte-Anne.</h2>
 <p class="timeline-instruction">↕ Faites défiler les dates pour explorer notre histoire</p><div aria-label="Chronologie, faire défiler vers le haut ou vers le bas" class="timeline-scroll" tabindex="0"><div class="timeline">
 <div class="time-item"><h3>1994</h3><p>Création de l’asbl Rafaël par le Père Réginald Rahoens, à l’origine du projet d’accueil sur le site.</p></div>
-<div class="time-item timeline-fiction"><h3>2006 <small>Scénario illustratif</small></h3><p>Exemple de rencontre citoyenne pour imaginer un espace d’accueil ouvert au quartier.</p></div><div class="time-item timeline-fiction"><h3>2015 <small>Scénario illustratif</small></h3><p>Exemple d’atelier collectif réunissant des habitants et des associations du territoire.</p></div><div class="time-item"><h3>2021</h3><p>Début des grands travaux de rénovation de l’ancien site Sainte-Anne.</p></div>
-<div class="time-item timeline-fiction"><h3>2022 <small>Scénario illustratif</small></h3><p>Exemple de visites et d’échanges pendant la transformation du bâtiment.</p></div><div class="time-item"><h3>2024</h3><p>Fin des travaux, réception provisoire, agrément des pompiers et installation progressive des ménages et associations.</p></div>
-<div class="time-item timeline-fiction"><h3>2024 · été <small>Scénario illustratif</small></h3><p>Exemple de premiers ateliers participatifs avec les résidents.</p></div><div class="time-item"><h3>2025</h3><p>Développement de nouvelles activités sociales, santé, culturelles et spirituelles.</p></div><div class="time-item timeline-fiction"><h3>2026 <small>Scénario illustratif</small></h3><p>Exemple de journée portes ouvertes et de rencontres avec les partenaires.</p></div>
+<div class="time-item"><h3>2021</h3><p>Début des grands travaux de rénovation de l’ancien site Sainte-Anne.</p></div>
+<div class="time-item"><h3>2024</h3><p>Fin des travaux, réception provisoire, agrément des pompiers et installation progressive des ménages et associations.</p></div>
+<div class="time-item"><h3>2025</h3><p>Développement de nouvelles activités sociales, santé, culturelles et spirituelles.</p></div>
 </div></div>
 </div>
 </div>
@@ -1538,19 +1563,19 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 <section class="page-section" id="temoignages">
 <div class="page-title">
 <div><h2>Des voix qui font vivre le Village.</h2></div>
-<p>Le Village Sainte-Anne prend tout son sens à travers les personnes qui y vivent, y travaillent, y apportent leur aide ou y participent ponctuellement. Cette rubrique est destinée à partager les expériences des habitants, des volontaires, des associations et des partenaires : leurs rencontres, leurs initiatives et les changements qu’ils constatent au quotidien. Ces témoignages permettront de montrer la diversité des parcours et la dimension humaine du projet.</p>
+<p>Le Village Sainte-Anne prend tout son sens à travers les personnes qui y vivent, y travaillent, y apportent leur aide ou y participent ponctuellement. Cette rubrique est destinée à partager les expériences des habitants, des volontaires, des associations et des partenaires : leurs rencontres, leurs initiatives et les changements qu’ils constatent au quotidien. Ces récits sont des exemples de présentation, dans l’attente de témoignages recueillis auprès des personnes concernées.</p>
 </div>
 <div class="temoin-grid"><article class="temoin-card">
-<div class="temoin-profile"><img alt="Portrait d’illustration pour le témoignage fictif de Samira" loading="lazy" src="assets/png/illustration-11.png"/><div><h3>Samira, maman accompagnée</h3><span>Aide alimentaire &amp; accueil</span></div></div>
-<blockquote>« J’ai retrouvé un lieu où l’on prend le temps de m’écouter. »</blockquote><p class="temoin-story">Quand je suis arrivée au Village, j’avais besoin d’un coup de main pour traverser une période difficile. L’accueil et l’aide alimentaire m’ont permis de souffler et de mieux organiser le quotidien de ma famille. J’ai surtout apprécié de pouvoir poser mes questions sans être jugée. Petit à petit, j’ai repris confiance et j’ai découvert d’autres possibilités d’accompagnement. Aujourd’hui, je me sens moins seule face aux difficultés.</p><p class="temoin-disclaimer">Témoignage fictif · photo d’illustration</p>
+<div class="temoin-profile"><img alt="Portrait illustré pour le récit exemple de Samira" loading="lazy" src="assets/png/illustration-11.png"/><div><h3>Samira, maman accompagnée</h3><span>Aide alimentaire &amp; accueil</span></div></div>
+<blockquote>« J’ai retrouvé un lieu où l’on prend le temps de m’écouter. »</blockquote><p class="temoin-story">Quand je suis arrivée au Village, j’avais besoin d’un coup de main pour traverser une période difficile. L’accueil et l’aide alimentaire m’ont permis de souffler et de mieux organiser le quotidien de ma famille. J’ai surtout apprécié de pouvoir poser mes questions sans être jugée. Petit à petit, j’ai repris confiance et j’ai découvert d’autres possibilités d’accompagnement. Aujourd’hui, je me sens moins seule face aux difficultés.</p>
 </article>
 <article class="temoin-card">
-<div class="temoin-profile"><img alt="Portrait d’illustration pour le témoignage fictif de Youssef" loading="lazy" src="assets/png/illustration-03.png"/><div><h3>Youssef, habitant accompagné</h3><span>Logement &amp; autonomie</span></div></div>
-<blockquote>« Un endroit stable m’a aidé à me projeter à nouveau. »</blockquote><p class="temoin-story">Pendant plusieurs mois, il m’était difficile de penser à autre chose qu’aux problèmes du moment. Le fait de trouver un cadre plus stable et des personnes disponibles pour m’orienter a changé beaucoup de choses. J’ai pu avancer dans mes démarches à mon rythme et retrouver des habitudes plus sereines. Les échanges avec les autres habitants m’ont aussi donné envie de participer à la vie du lieu. Ce soutien m’a aidé à reprendre des projets que j’avais mis de côté.</p><p class="temoin-disclaimer">Témoignage fictif · photo d’illustration</p>
+<div class="temoin-profile"><img alt="Portrait illustré pour le récit exemple de Youssef" loading="lazy" src="assets/png/illustration-03.png"/><div><h3>Youssef, habitant accompagné</h3><span>Logement &amp; autonomie</span></div></div>
+<blockquote>« Un endroit stable m’a aidé à me projeter à nouveau. »</blockquote><p class="temoin-story">Pendant plusieurs mois, il m’était difficile de penser à autre chose qu’aux problèmes du moment. Le fait de trouver un cadre plus stable et des personnes disponibles pour m’orienter a changé beaucoup de choses. J’ai pu avancer dans mes démarches à mon rythme et retrouver des habitudes plus sereines. Les échanges avec les autres habitants m’ont aussi donné envie de participer à la vie du lieu. Ce soutien m’a aidé à reprendre des projets que j’avais mis de côté.</p>
 </article>
 <article class="temoin-card">
-<div class="temoin-profile"><img alt="Portrait d’illustration pour le témoignage fictif de Nadia" loading="lazy" src="assets/png/illustration-12.png"/><div><h3>Nadia, participante aux activités</h3><span>Rencontres &amp; vie de quartier</span></div></div>
-<blockquote>« Ici, je ne viens pas seulement chercher de l’aide, je viens aussi rencontrer des gens. »</blockquote><p class="temoin-story">Au début, je connaissais peu de personnes dans le quartier et je n’osais pas toujours participer aux activités. Une première rencontre m’a donné envie de revenir, puis de faire connaissance avec d’autres habitants et bénévoles. Les moments partagés autour d’un café ou d’un atelier ont créé des liens simples mais précieux. J’ai découvert des associations et des idées auxquelles je n’aurais pas pensé seule. Le Village est devenu pour moi un endroit où je me sens accueillie et utile.</p><p class="temoin-disclaimer">Témoignage fictif · photo d’illustration</p>
+<div class="temoin-profile"><img alt="Portrait illustré pour le récit exemple de Nadia" loading="lazy" src="assets/png/illustration-12.png"/><div><h3>Nadia, participante aux activités</h3><span>Rencontres &amp; vie de quartier</span></div></div>
+<blockquote>« Ici, je ne viens pas seulement chercher de l’aide, je viens aussi rencontrer des gens. »</blockquote><p class="temoin-story">Au début, je connaissais peu de personnes dans le quartier et je n’osais pas toujours participer aux activités. Une première rencontre m’a donné envie de revenir, puis de faire connaissance avec d’autres habitants et bénévoles. Les moments partagés autour d’un café ou d’un atelier ont créé des liens simples mais précieux. J’ai découvert des associations et des idées auxquelles je n’aurais pas pensé seule. Le Village est devenu pour moi un endroit où je me sens accueillie et utile.</p>
 </article></div>
 </section>
 <section class="page-section" id="associations">
@@ -1568,19 +1593,19 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 </div>
 <div "="" class="card assoc-column-card green" data-assoc-column="residentes">
 <h3 class="association-group-title">Associations résidentes</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="residentes" style="margin-top:1rem;"><span class="logo-pill" data-assoc-name="Banque Alimentaire" style='--logo-bg:url("assets/png/banque-alimentaire.png")'>Banque Alimentaire</span><a class="logo-pill" data-assoc-name="Convivial" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial.png")' target="_blank" title="Ouvrir le site de Convivial">Convivial</a><a class="logo-pill" data-assoc-name="Sapham" href="https://www.sapham.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sapham.png")' target="_blank" title="Ouvrir le site de Sapham">Sapham</a><a class="logo-pill" data-assoc-name="Madras" href="https://www.madras-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/madras.png")' target="_blank" title="Ouvrir le site de Madras">Madras</a><a class="logo-pill" data-assoc-name="AOP - UP Anderlecht" href="http://upanderlecht.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/aop-up-anderlecht.png")' target="_blank" title="Ouvrir le site de AOP - UP Anderlecht">AOP - UP Anderlecht</a><a class="logo-pill" data-assoc-name="CASI-UO" href="http://casi-uo.wixsite.com/casiuo" rel="noopener noreferrer" style='--logo-bg:url("assets/png/casi-uo.png")' target="_blank" title="Ouvrir le site de CASI-UO">CASI-UO</a><a class="logo-pill" data-assoc-name="Ma Broeck" href="https://www.facebook.com/MaBroeck" rel="noopener noreferrer" style='--logo-bg:url("assets/png/ma-broeck.png")' target="_blank" title="Ouvrir le site de Ma Broeck">Ma Broeck</a><a class="logo-pill" data-assoc-name="L'Estime" href="https://lestime.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lestime.png")' target="_blank" title="Ouvrir le site de L'Estime">L'Estime</a><button class="logo-pill" data-assoc-name="PsyBru" data-partner-modal="psybru" style='--logo-bg:url("assets/png/psybru.png")' title="Afficher la présentation de PsyBru" type="button">PsyBru</button><a class="logo-pill" data-assoc-name="Ti Plouf" href="https://rafael.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/ti-plouf.png")' target="_blank" title="Ouvrir le site de Ti Plouf">Ti Plouf</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="residentes" style="margin-top:1rem;"><button type="button" class="logo-pill" data-assoc-name="Banque Alimentaire" data-partner-modal="rafael" style='--logo-bg:url("assets/png/banque-alimentaire.png")' title="Voir la présentation de Rafaël">Banque Alimentaire</button><a class="logo-pill" data-assoc-name="Convivial" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial.png")' target="_blank" title="Ouvrir le site de Convivial">Convivial</a><a class="logo-pill" data-assoc-name="Sapham" href="https://www.sapham.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sapham.png")' target="_blank" title="Ouvrir le site de Sapham">Sapham</a><a class="logo-pill" data-assoc-name="Madras" href="https://www.madras-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/madras.png")' target="_blank" title="Ouvrir le site de Madras">Madras</a><a class="logo-pill" data-assoc-name="AOP - UP Anderlecht" href="http://upanderlecht.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/aop-up-anderlecht.png")' target="_blank" title="Ouvrir le site de AOP - UP Anderlecht">AOP - UP Anderlecht</a><a class="logo-pill" data-assoc-name="CASI-UO" style='--logo-bg:url("assets/png/casi-uo.png")' href="https://casi-uo.com/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de CASI-UO">CASI-UO</a><a class="logo-pill" data-assoc-name="Ma Broeck" style='--logo-bg:url("assets/png/ma-broeck.png")' href="https://votreresto.be/ma-broeck" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Ma Broeck">Ma Broeck</a><a class="logo-pill" data-assoc-name="L'Estime" href="https://lestime.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lestime.png")' target="_blank" title="Ouvrir le site de L'Estime">L'Estime</a><button class="logo-pill" data-assoc-name="PsyBru" data-partner-modal="psybru" style='--logo-bg:url("assets/png/psybru.png")' title="Afficher la présentation de PsyBru" type="button">PsyBru</button><a class="logo-pill" data-assoc-name="Ti Plouf" href="https://rafael.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/ti-plouf.png")' target="_blank" title="Ouvrir le site de Ti Plouf">Ti Plouf</a></div>
 </div>
 <div "="" class="card assoc-column-card yellow" data-assoc-column="logement">
 <h3 class="association-group-title">Partenaires logement et accompagnement</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="logement"><a class="logo-pill" data-assoc-name="Convivial Logement" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial-logement.png")' target="_blank" title="Ouvrir le site de Convivial logement">Convivial Logement</a><span class="logo-pill" data-assoc-name="LPR - UTAS" style='--logo-bg:url("assets/png/lpr-utas.png")'>LPR - UTAS</span><a class="logo-pill" data-assoc-name="L'Ilot – Sac à dos" href="https://ilot.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lilot-sac-a-dos.png")' target="_blank" title="Ouvrir le site de L'Ilot – Sac à dos">L'Ilot – Sac à dos</a><a class="logo-pill" data-assoc-name="Fami-Home" href="https://www.famihome.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/fami-home.png")' target="_blank" title="Ouvrir le site de Fami-Home">Fami-Home</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="logement"><a class="logo-pill" data-assoc-name="Convivial Logement" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial-logement.png")' target="_blank" title="Ouvrir le site de Convivial logement">Convivial Logement</a><a class="logo-pill" data-assoc-name="LPR - UTAS" href="https://petitsriens.be/accueil/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site des Petits Riens" style='--logo-bg:url("assets/png/lpr-utas.png")'>LPR - UTAS</a><a class="logo-pill" data-assoc-name="L'Ilot – Sac à dos" href="https://ilot.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lilot-sac-a-dos.png")' target="_blank" title="Ouvrir le site de L'Ilot – Sac à dos">L'Ilot – Sac à dos</a><a class="logo-pill" data-assoc-name="Fami-Home" href="https://www.famihome.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/fami-home.png")' target="_blank" title="Ouvrir le site de Fami-Home">Fami-Home</a></div>
 </div>
 <div "="" class="card assoc-column-card blue" data-assoc-column="sante">
 <h3 class="association-group-title">Partenaires santé, bien-être et insertion</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="sante"><span class="logo-pill" data-assoc-name="Habitat et Participation" style='--logo-bg:url("assets/png/habitat-et-participation.png")'>Habitat et Participation</span><a class="logo-pill" data-assoc-name="Brusano" href="https://brusano.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/brusano.png")' target="_blank" title="Ouvrir le site de Brusano">Brusano</a><a class="logo-pill" data-assoc-name="Maison Médicale Horizons" href="https://www.cmhorizon.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/maison-medicale-horizons.png")' target="_blank" title="Ouvrir le site de Maison Médicale Horizons">Maison Médicale Horizons</a><span class="logo-pill" data-assoc-name="Promotion et Prévention de la Santé à Anderlecht" style='--logo-bg:url("assets/png/promotion-sante-anderlecht.png")'>Promotion et Prévention de la Santé à Anderlecht</span><a class="logo-pill" data-assoc-name="Groep Intro NL" href="https://www.groepintro.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/groep-intro-nl.png")' target="_blank" title="Ouvrir le site de Groep Intro NL">Groep Intro NL</a><a class="logo-pill" data-assoc-name="Groep Intro FR" href="https://www.groepintro.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/groep-intro-fr.png")' target="_blank" title="Ouvrir le site de Groep Intro FR">Groep Intro FR</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="sante"><a class="logo-pill" data-assoc-name="Habitat et Participation" style='--logo-bg:url("assets/png/habitat-et-participation.png")' href="https://habitat-participation.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Habitat et Participation">Habitat et Participation</a><a class="logo-pill" data-assoc-name="Brusano" href="https://brusano.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/brusano.png")' target="_blank" title="Ouvrir le site de Brusano">Brusano</a><a class="logo-pill" data-assoc-name="Maison Médicale Horizons" style='--logo-bg:url("assets/png/maison-medicale-horizons.png")' href="https://www.mmhorizons.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Maison Médicale Horizons">Maison Médicale Horizons</a><a class="logo-pill" data-assoc-name="Promotion et Prévention de la Santé à Anderlecht" style='--logo-bg:url("assets/png/promotion-sante-anderlecht.png")' href="https://www.anderlecht.be/fr/anderlecht-prevention" target="_blank" rel="noopener noreferrer" title="Ouvrir le site d’Anderlecht Prévention">Promotion et Prévention de la Santé à Anderlecht</a><a class="logo-pill" data-assoc-name="Groep Intro NL" href="https://www.groepintro.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/groep-intro-nl.png")' target="_blank" title="Ouvrir le site de Groep Intro NL">Groep Intro NL</a><a class="logo-pill" data-assoc-name="Groep Intro FR" style='--logo-bg:url("assets/png/groep-intro-fr.png")' href="https://www.groepintro.be/fr/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Groep Intro FR">Groep Intro FR</a></div>
 </div>
 <div "="" class="card assoc-column-card red" data-assoc-column="culture">
 <h3 class="association-group-title">Partenaires culture, jeunesse et territoire</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="culture"><a class="logo-pill" data-assoc-name="GC De Rinck" href="https://www.derinck.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/gc-de-rinck.png")' target="_blank" title="Ouvrir le site de GC De Rinck">GC De Rinck</a><a class="logo-pill" data-assoc-name="L'Escale du Nord" href="https://escaledunord.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lescale-du-nord.png")' target="_blank" title="Ouvrir le site de L'Escale du Nord">L'Escale du Nord</a><span class="logo-pill" data-assoc-name="Academie voor Beeldende Kunsten Anderlecht" style='--logo-bg:url("assets/png/academie-beeldende-kunsten-anderlecht.png")'>Academie voor Beeldende Kunsten Anderlecht</span><a class="logo-pill" data-assoc-name="Sint-Guido-Instituut" href="https://www.anderlecht.be/fr/organisme/institut-saint-guidon" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sint-guido-instituut.png")' target="_blank" title="Ouvrir le site de Sint-Guido-Instituut">Sint-Guido-Instituut</a><a class="logo-pill" data-assoc-name="Mix-Up" href="https://www.mixup-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/mix-up.png")' target="_blank" title="Ouvrir le site de Mix-Up">Mix-Up</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="culture"><a class="logo-pill" data-assoc-name="GC De Rinck" href="https://www.derinck.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/gc-de-rinck.png")' target="_blank" title="Ouvrir le site de GC De Rinck">GC De Rinck</a><a class="logo-pill" data-assoc-name="L'Escale du Nord" href="https://escaledunord.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lescale-du-nord.png")' target="_blank" title="Ouvrir le site de L'Escale du Nord">L'Escale du Nord</a><a class="logo-pill" data-assoc-name="Academie voor Beeldende Kunsten Anderlecht" style='--logo-bg:url("assets/png/academie-beeldende-kunsten-anderlecht.png")' href="https://academieanderlecht.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Academie voor Beeldende Kunsten Anderlecht">Academie voor Beeldende Kunsten Anderlecht</a><a class="logo-pill" data-assoc-name="Sint-Guido-Instituut" style='--logo-bg:url("assets/png/sint-guido-instituut.png")' href="https://www.sintguido.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Sint-Guido-Instituut">Sint-Guido-Instituut</a><a class="logo-pill" data-assoc-name="Mix-Up" href="https://www.mixup-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/mix-up.png")' target="_blank" title="Ouvrir le site de Mix-Up">Mix-Up</a></div>
 </div>
 </div>
 </section>
@@ -1594,7 +1619,7 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 <div><h2>Couleurs, vie collective et esprit vitrail.</h2></div>
 <p>La galerie présente la vie du Village Sainte-Anne à travers ses activités, ses événements et les moments partagés entre habitants, associations, volontaires et partenaires. Elle permet de montrer concrètement ce qui se vit sur le site : les rencontres, les projets collectifs, les temps d’accueil, les initiatives de quartier, les activités sociales, culturelles et citoyennes. À travers ces images, nous voulons donner un aperçu simple et vivant de l’ambiance du Village, de son énergie quotidienne et des liens qui se construisent entre les personnes.</p>
 </div>
-<div class="gallery"><div></div><div></div><div></div><div></div><div></div></div>
+<div class="gallery"><div class="gallery-photo gallery-photo-original" data-gallery-image="assets/png/illustrations-01.png" role="img" aria-label="Photo de la galerie 01"></div><div class="gallery-photo gallery-photo-original" data-gallery-image="assets/png/illustrations-02.png" role="img" aria-label="Photo de la galerie 02"></div><div class="gallery-photo gallery-photo-original" data-gallery-image="assets/png/illustrations-03.png" role="img" aria-label="Photo de la galerie 03"></div><div class="gallery-photo gallery-photo-original" data-gallery-image="assets/png/illustrations-04.png" role="img" aria-label="Photo de la galerie 04"></div><div class="gallery-photo gallery-photo-original" data-gallery-image="assets/png/illustrations-05.png" role="img" aria-label="Photo de la galerie 05"></div></div>
 </section>
 <section class="page-section donations-v2" id="dons">
 <div class="donation-heading">
@@ -1671,10 +1696,7 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 <div class="card blue contact-information-card">
 <div class="contact-details-centered"><h3>E-mail</h3><p><a href="mailto:info@rafael.brussels">info@rafael.brussels</a></p><h3>Instagram</h3><p><a href="https://www.instagram.com/rafael_vzw_asbl/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Rafaël (ouvre un nouvel onglet)">@rafael_vzw_asbl ↗</a></p><h3>Adresse</h3><p>Village Sainte-Anne | Sint-Annadorp</p><p>Place de la Vaillance 15B / Dapperheidsplein</p><p>1070 Anderlecht</p></div>
 <div class="contact-map">
-<iframe
-  loading="lazy"
-  src="https://www.openstreetmap.org/export/embed.html?bbox=4.29993%2C50.83400%2C4.31113%2C50.83968&layer=mapnik&marker=50.83683954036562%2C4.305526725194765"
-  title="Carte OpenStreetMap - GPS Location">
+<iframe loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=4.29991331%2C50.83401495%2C4.31111331%2C50.83971495&amp;layer=mapnik&amp;marker=50.836864948826516%2C4.305513314149955" title="Carte OpenStreetMap - Village Sainte-Anne">
 </iframe>
 </div>
 </div>
@@ -2109,5 +2131,26 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
   if(e.target.closest('.vsa-modal-close')){dlg.close();return;}
   if(e.target===dlg)dlg.close();
  });
-})();</script></body>
+})();</script>
+<script id="vsa-gallery-png-loading">
+(function(){
+  function updateGalleryPhotos(){
+    document.querySelectorAll('#galerie [data-gallery-image]').forEach(function(card){
+      var src=card.getAttribute('data-gallery-image');
+      if(!src)return;
+      var image=new Image();
+      image.onload=function(){
+        card.style.backgroundImage='url("'+src+'")';
+        card.classList.add('gallery-image-loaded');
+        card.setAttribute('aria-label','Image de la galerie : '+src.split('/').pop());
+      };
+      image.onerror=function(){ /* conserver le visuel ou emplacement existant */ };
+      image.src=src;
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',updateGalleryPhotos);
+  else updateGalleryPhotos();
+})();
+</script>
+</body>
 </html>
