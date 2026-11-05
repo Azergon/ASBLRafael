@@ -1393,6 +1393,82 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 #galerie .gallery .gallery-photo.gallery-image-loaded span,
 #galerie .gallery .gallery-photo.gallery-image-loaded small{display:none!important;}
 </style>
+
+<style id="vsa-logos-always-visible">
+/* Logos PNG visibles immédiatement dans chaque carte, sans animation ni survol. */
+#associations .logo-pill,
+#associations .logo-pill:hover,
+#associations .logo-pill:focus-visible {
+  background:#fff !important;
+  background-image:var(--logo-bg) !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+  background-size:contain !important;
+  color:transparent !important;
+  text-shadow:none !important;
+  transition:none !important;
+  transform:none !important;
+  box-shadow:6px 6px 0 rgba(22,27,33,.09) !important;
+}
+#associations .logo-pill::before,
+#associations .logo-pill::after,
+#associations .logo-pill:hover::before,
+#associations .logo-pill:focus-visible::before {
+  content:none !important;
+  display:none !important;
+  animation:none !important;
+}
+#associations .logo-pill .assoc-card-label,
+#associations .logo-pill:hover .assoc-card-label,
+#associations .logo-pill:focus-visible .assoc-card-label {
+  opacity:0 !important;
+  visibility:hidden !important;
+  color:transparent !important;
+}
+/* Garder les logos entièrement visibles et cadrés, aussi sur téléphone. */
+#associations .assoc-drop-zone .logo-pill {background-size:contain !important; min-height:76px;}
+</style>
+
+<style id="vsa-partner-logo-sizing-and-language">
+/* Ajustements des logos : dimensions sans distorsion, cadres inchangés. */
+#associations .parent-associations-logos > .rafael-parent-pill {
+  height:110px !important; max-height:110px !important;
+  background-size:auto 100% !important;
+}
+#associations .parent-associations-logos > .logo-pill[aria-label="Site internet : SoHab"] {
+  background-size:auto 57% !important;
+}
+#associations .assoc-drop-zone .logo-pill[data-assoc-name="GC De Rinck"],
+#associations .assoc-drop-zone .logo-pill[data-assoc-name="Fami-Home"] {
+  background-size:auto 68% !important;
+}
+/* Étiquettes de langue visibles au premier plan, en bas à droite. */
+#associations .assoc-drop-zone .logo-pill[data-assoc-name^="Groep Intro"] {
+  position:relative !important; isolation:isolate !important;
+}
+#associations .assoc-drop-zone .logo-pill .vsa-language-tag {
+  position:absolute !important; bottom:5px !important; right:8px !important;
+  z-index:10 !important; display:inline-flex !important; align-items:center !important;
+  justify-content:center !important; min-width:25px; padding:3px 5px;
+  border-radius:5px; border:1px solid rgba(255,255,255,.8);
+  background:#1a4568 !important; color:#fff !important;
+  font-size:10px !important; font-weight:900 !important; line-height:1.1 !important;
+  letter-spacing:.06em !important; opacity:1 !important; visibility:visible !important;
+  text-shadow:none !important; box-shadow:0 2px 5px rgba(0,0,0,.17);
+}
+@media(max-width:760px){
+ #associations .parent-associations-logos > .rafael-parent-pill {height:100px !important;max-height:100px !important;}
+}
+
+/* Adaptation ciblée : Convivial x2 et Habitat et Participation légèrement plus petits */
+#associations .assoc-drop-zone .logo-pill[data-assoc-name="Convivial"],
+#associations .assoc-drop-zone .logo-pill[data-assoc-name="Convivial Logement"] {
+  background-size:auto 72% !important;
+}
+#associations .assoc-drop-zone .logo-pill[data-assoc-name="Habitat et Participation"] {
+  background-size:auto 73% !important;
+}
+</style>
 </head>
 <body class="">
 <div aria-hidden="true" class="intro-loader">
@@ -1586,26 +1662,26 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 <div class="association-groups">
 <div class="card orange parent-associations-card">
 <div class="logos parent-associations-logos">
-<span class="logo-pill village-parent-card" style='--logo-bg:url("assets/png/village-sainte-anne.png")'>Village Sainte-Anne</span>
-<button aria-label="Informations : ASBL Rafaël" class="logo-pill rafael-parent-pill" data-partner-modal="rafael" style='--logo-bg:url("assets/png/rafael.png")' title="Afficher la présentation" type="button">Rafaël</button>
-<a aria-label="Site internet : SoHab" class="logo-pill" href="https://www.sohab.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sohab.png")' target="_blank" title="Ouvrir le site de SoHab">SoHab</a>
+<span class="logo-pill village-parent-card" style='--logo-bg:url("assets/png/village-sainte-anne.png")'><span class="assoc-card-label">Village Sainte-Anne</span></span>
+<button aria-label="Informations : ASBL Rafaël" class="logo-pill rafael-parent-pill" data-partner-modal="rafael" style='--logo-bg:url("assets/png/rafael.png")' title="Afficher la présentation" type="button"><span class="assoc-card-label">Rafaël</span></button>
+<a aria-label="Site internet : SoHab" class="logo-pill" href="https://www.sohab.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sohab.png")' target="_blank" title="Ouvrir le site de SoHab"><span class="assoc-card-label">SoHab</span></a>
 </div>
 </div>
 <div "="" class="card assoc-column-card green" data-assoc-column="residentes">
 <h3 class="association-group-title">Associations résidentes</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="residentes" style="margin-top:1rem;"><button type="button" class="logo-pill" data-assoc-name="Banque Alimentaire" data-partner-modal="rafael" style='--logo-bg:url("assets/png/banque-alimentaire.png")' title="Voir la présentation de Rafaël">Banque Alimentaire</button><a class="logo-pill" data-assoc-name="Convivial" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial.png")' target="_blank" title="Ouvrir le site de Convivial">Convivial</a><a class="logo-pill" data-assoc-name="Sapham" href="https://www.sapham.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sapham.png")' target="_blank" title="Ouvrir le site de Sapham">Sapham</a><a class="logo-pill" data-assoc-name="Madras" href="https://www.madras-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/madras.png")' target="_blank" title="Ouvrir le site de Madras">Madras</a><a class="logo-pill" data-assoc-name="AOP - UP Anderlecht" href="http://upanderlecht.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/aop-up-anderlecht.png")' target="_blank" title="Ouvrir le site de AOP - UP Anderlecht">AOP - UP Anderlecht</a><a class="logo-pill" data-assoc-name="CASI-UO" style='--logo-bg:url("assets/png/casi-uo.png")' href="https://casi-uo.com/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de CASI-UO">CASI-UO</a><a class="logo-pill" data-assoc-name="Ma Broeck" style='--logo-bg:url("assets/png/ma-broeck.png")' href="https://votreresto.be/ma-broeck" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Ma Broeck">Ma Broeck</a><a class="logo-pill" data-assoc-name="L'Estime" href="https://lestime.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lestime.png")' target="_blank" title="Ouvrir le site de L'Estime">L'Estime</a><button class="logo-pill" data-assoc-name="PsyBru" data-partner-modal="psybru" style='--logo-bg:url("assets/png/psybru.png")' title="Afficher la présentation de PsyBru" type="button">PsyBru</button><a class="logo-pill" data-assoc-name="Ti Plouf" href="https://rafael.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/ti-plouf.png")' target="_blank" title="Ouvrir le site de Ti Plouf">Ti Plouf</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="residentes" style="margin-top:1rem;"><button type="button" class="logo-pill" data-assoc-name="Banque Alimentaire" data-partner-modal="rafael" style='--logo-bg:url("assets/png/banque-alimentaire.png")' title="Voir la présentation de Rafaël"><span class="assoc-card-label">Banque Alimentaire</span></button><a class="logo-pill" data-assoc-name="Convivial" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial.png")' target="_blank" title="Ouvrir le site de Convivial"><span class="assoc-card-label">Convivial</span></a><a class="logo-pill" data-assoc-name="Sapham" href="https://www.sapham.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/sapham.png")' target="_blank" title="Ouvrir le site de Sapham"><span class="assoc-card-label">Sapham</span></a><a class="logo-pill" data-assoc-name="Madras" href="https://www.madras-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/madras.png")' target="_blank" title="Ouvrir le site de Madras"><span class="assoc-card-label">Madras</span></a><a class="logo-pill" data-assoc-name="AOP - UP Anderlecht" href="http://upanderlecht.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/aop-up-anderlecht.png")' target="_blank" title="Ouvrir le site de AOP - UP Anderlecht"><span class="assoc-card-label">AOP - UP Anderlecht</span></a><a class="logo-pill" data-assoc-name="CASI-UO" style='--logo-bg:url("assets/png/casi-uo.png")' href="https://casi-uo.com/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de CASI-UO"><span class="assoc-card-label">CASI-UO</span></a><a class="logo-pill" data-assoc-name="Ma Broeck" style='--logo-bg:url("assets/png/ma-broeck.png")' href="https://votreresto.be/ma-broeck" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Ma Broeck"><span class="assoc-card-label">Ma Broeck</span></a><a class="logo-pill" data-assoc-name="L'Estime" href="https://lestime.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lestime.png")' target="_blank" title="Ouvrir le site de L'Estime"><span class="assoc-card-label">L'Estime</span></a><button class="logo-pill" data-assoc-name="PsyBru" data-partner-modal="psybru" style='--logo-bg:url("assets/png/psybru.png")' title="Afficher la présentation de PsyBru" type="button"><span class="assoc-card-label">PsyBru</span></button><a class="logo-pill" data-assoc-name="Ti Plouf" href="https://rafael.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/ti-plouf.png")' target="_blank" title="Ouvrir le site de Ti Plouf"><span class="assoc-card-label">Ti Plouf</span></a></div>
 </div>
 <div "="" class="card assoc-column-card yellow" data-assoc-column="logement">
 <h3 class="association-group-title">Partenaires logement et accompagnement</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="logement"><a class="logo-pill" data-assoc-name="Convivial Logement" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial-logement.png")' target="_blank" title="Ouvrir le site de Convivial logement">Convivial Logement</a><a class="logo-pill" data-assoc-name="LPR - UTAS" href="https://petitsriens.be/accueil/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site des Petits Riens" style='--logo-bg:url("assets/png/lpr-utas.png")'>LPR - UTAS</a><a class="logo-pill" data-assoc-name="L'Ilot – Sac à dos" href="https://ilot.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lilot-sac-a-dos.png")' target="_blank" title="Ouvrir le site de L'Ilot – Sac à dos">L'Ilot – Sac à dos</a><a class="logo-pill" data-assoc-name="Fami-Home" href="https://www.famihome.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/fami-home.png")' target="_blank" title="Ouvrir le site de Fami-Home">Fami-Home</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="logement"><a class="logo-pill" data-assoc-name="Convivial Logement" href="https://www.convivial.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/convivial-logement.png")' target="_blank" title="Ouvrir le site de Convivial logement"><span class="assoc-card-label">Convivial Logement</span></a><a class="logo-pill" data-assoc-name="LPR - UTAS" href="https://petitsriens.be/accueil/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site des Petits Riens" style='--logo-bg:url("assets/png/lpr-utas.png")'><span class="assoc-card-label">LPR - UTAS</span></a><a class="logo-pill" data-assoc-name="L'Ilot – Sac à dos" href="https://ilot.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lilot-sac-a-dos.png")' target="_blank" title="Ouvrir le site de L'Ilot – Sac à dos"><span class="assoc-card-label">L'Ilot – Sac à dos</span></a><a class="logo-pill" data-assoc-name="Fami-Home" href="https://www.famihome.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/fami-home.png")' target="_blank" title="Ouvrir le site de Fami-Home"><span class="assoc-card-label">Fami-Home</span></a></div>
 </div>
 <div "="" class="card assoc-column-card blue" data-assoc-column="sante">
 <h3 class="association-group-title">Partenaires santé, bien-être et insertion</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="sante"><a class="logo-pill" data-assoc-name="Habitat et Participation" style='--logo-bg:url("assets/png/habitat-et-participation.png")' href="https://habitat-participation.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Habitat et Participation">Habitat et Participation</a><a class="logo-pill" data-assoc-name="Brusano" href="https://brusano.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/brusano.png")' target="_blank" title="Ouvrir le site de Brusano">Brusano</a><a class="logo-pill" data-assoc-name="Maison Médicale Horizons" style='--logo-bg:url("assets/png/maison-medicale-horizons.png")' href="https://www.mmhorizons.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Maison Médicale Horizons">Maison Médicale Horizons</a><a class="logo-pill" data-assoc-name="Promotion et Prévention de la Santé à Anderlecht" style='--logo-bg:url("assets/png/promotion-sante-anderlecht.png")' href="https://www.anderlecht.be/fr/anderlecht-prevention" target="_blank" rel="noopener noreferrer" title="Ouvrir le site d’Anderlecht Prévention">Promotion et Prévention de la Santé à Anderlecht</a><a class="logo-pill" data-assoc-name="Groep Intro NL" href="https://www.groepintro.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/groep-intro-nl.png")' target="_blank" title="Ouvrir le site de Groep Intro NL">Groep Intro NL</a><a class="logo-pill" data-assoc-name="Groep Intro FR" style='--logo-bg:url("assets/png/groep-intro-fr.png")' href="https://www.groepintro.be/fr/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Groep Intro FR">Groep Intro FR</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="sante"><a class="logo-pill" data-assoc-name="Habitat et Participation" style='--logo-bg:url("assets/png/habitat-et-participation.png")' href="https://habitat-participation.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Habitat et Participation"><span class="assoc-card-label">Habitat et Participation</span></a><a class="logo-pill" data-assoc-name="Brusano" href="https://brusano.brussels" rel="noopener noreferrer" style='--logo-bg:url("assets/png/brusano.png")' target="_blank" title="Ouvrir le site de Brusano"><span class="assoc-card-label">Brusano</span></a><a class="logo-pill" data-assoc-name="Maison Médicale Horizons" style='--logo-bg:url("assets/png/maison-medicale-horizons.png")' href="https://www.mmhorizons.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Maison Médicale Horizons"><span class="assoc-card-label">Maison Médicale Horizons</span></a><a class="logo-pill" data-assoc-name="Promotion et Prévention de la Santé à Anderlecht" style='--logo-bg:url("assets/png/promotion-sante-anderlecht.png")' href="https://www.anderlecht.be/fr/anderlecht-prevention" target="_blank" rel="noopener noreferrer" title="Ouvrir le site d’Anderlecht Prévention"><span class="assoc-card-label">Promotion et Prévention de la Santé à Anderlecht</span></a><a class="logo-pill" data-assoc-name="Groep Intro NL" href="https://www.groepintro.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/groep-intro-nl.png")' target="_blank" title="Ouvrir le site de Groep Intro NL"><span class="assoc-card-label">Groep Intro NL</span><span class="vsa-language-tag" aria-hidden="true">NL</span></a><a class="logo-pill" data-assoc-name="Groep Intro FR" style='--logo-bg:url("assets/png/groep-intro-fr.png")' href="https://www.groepintro.be/fr/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Groep Intro FR"><span class="assoc-card-label">Groep Intro FR</span><span class="vsa-language-tag" aria-hidden="true">FR</span></a></div>
 </div>
 <div "="" class="card assoc-column-card red" data-assoc-column="culture">
 <h3 class="association-group-title">Partenaires culture, jeunesse et territoire</h3>
-<div class="logos assoc-drop-zone" data-assoc-zone="culture"><a class="logo-pill" data-assoc-name="GC De Rinck" href="https://www.derinck.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/gc-de-rinck.png")' target="_blank" title="Ouvrir le site de GC De Rinck">GC De Rinck</a><a class="logo-pill" data-assoc-name="L'Escale du Nord" href="https://escaledunord.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lescale-du-nord.png")' target="_blank" title="Ouvrir le site de L'Escale du Nord">L'Escale du Nord</a><a class="logo-pill" data-assoc-name="Academie voor Beeldende Kunsten Anderlecht" style='--logo-bg:url("assets/png/academie-beeldende-kunsten-anderlecht.png")' href="https://academieanderlecht.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Academie voor Beeldende Kunsten Anderlecht">Academie voor Beeldende Kunsten Anderlecht</a><a class="logo-pill" data-assoc-name="Sint-Guido-Instituut" style='--logo-bg:url("assets/png/sint-guido-instituut.png")' href="https://www.sintguido.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Sint-Guido-Instituut">Sint-Guido-Instituut</a><a class="logo-pill" data-assoc-name="Mix-Up" href="https://www.mixup-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/mix-up.png")' target="_blank" title="Ouvrir le site de Mix-Up">Mix-Up</a></div>
+<div class="logos assoc-drop-zone" data-assoc-zone="culture"><a class="logo-pill" data-assoc-name="GC De Rinck" href="https://www.derinck.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/gc-de-rinck.png")' target="_blank" title="Ouvrir le site de GC De Rinck"><span class="assoc-card-label">GC De Rinck</span></a><a class="logo-pill" data-assoc-name="L'Escale du Nord" href="https://escaledunord.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/lescale-du-nord.png")' target="_blank" title="Ouvrir le site de L'Escale du Nord"><span class="assoc-card-label">L'Escale du Nord</span></a><a class="logo-pill" data-assoc-name="Academie voor Beeldende Kunsten Anderlecht" style='--logo-bg:url("assets/png/academie-beeldende-kunsten-anderlecht.png")' href="https://academieanderlecht.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Academie voor Beeldende Kunsten Anderlecht"><span class="assoc-card-label">Academie voor Beeldende Kunsten Anderlecht</span></a><a class="logo-pill" data-assoc-name="Sint-Guido-Instituut" style='--logo-bg:url("assets/png/sint-guido-instituut.png")' href="https://www.sintguido.be/" target="_blank" rel="noopener noreferrer" title="Ouvrir le site de Sint-Guido-Instituut"><span class="assoc-card-label">Sint-Guido-Instituut</span></a><a class="logo-pill" data-assoc-name="Mix-Up" href="https://www.mixup-asbl.be" rel="noopener noreferrer" style='--logo-bg:url("assets/png/mix-up.png")' target="_blank" title="Ouvrir le site de Mix-Up"><span class="assoc-card-label">Mix-Up</span></a></div>
 </div>
 </div>
 </section>
@@ -1673,7 +1749,7 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 <span>+</span><span>+</span><span>+</span>
 <span>6</span><span>2</span><span>3</span>
 <span>/</span>
-<span>3</span><span>8</span><span>1</span>
+<span>3</span><span>8</span><span>1</span><span>7</span>
 <span>/</span>
 <span>0</span><span>0</span><span>0</span><span>6</span><span>2</span>
 <span>+</span><span>+</span><span>+</span>
@@ -2011,35 +2087,15 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
 })();
 </script>
 <script>
-/* Bulles décoratives de partenaires : uniquement sur Accueil */
+/* Bulles de l'accueil : uniquement les cartes des associations résidentes. */
 (function(){
-  const partners = [...document.querySelectorAll('#associations .assoc-drop-zone .logo-pill, #associations .parent-associations-logos .logo-pill')].map(el=>{
-      const name=el.dataset.assocName || el.textContent.trim();
-      const raw=el.style.getPropertyValue('--logo-bg').trim();
-      const logo=raw.replace(/^url\(\s*/i,'').replace(/\s*\)$/,'').trim().replace(/^['"]|['"]$/g,'');
-      return {name, logo: logo.startsWith('assets/png/') ? logo : ''};
-    }).filter((p,i,a)=>a.findIndex(q=>q.name===p.name)===i);
-  // Associations présentes dans les colonnes : compléter les bulles avec leurs véritables logos lorsque disponibles.
-  const namesSeen = new Set(partners.map(p=>p.name.toLocaleLowerCase('fr')));
-  const candidatePills = document.querySelectorAll('#associations .logo-pill');
-  candidatePills.forEach(pill => {
-    const name=(pill.textContent||'').trim();
-    if (!name || namesSeen.has(name.toLocaleLowerCase('fr'))) return;
-    namesSeen.add(name.toLocaleLowerCase('fr'));
-    const variable=pill.style.getPropertyValue('--logo-bg').trim();
-    let logo=variable.replace(/^url\(\s*/i,'').replace(/\s*\)$/,'').trim().replace(/^['"]|['"]$/g,'');
-    if(!logo.startsWith('assets/png/')) logo='';
-    const ownImg=pill.querySelector('img');
-    if(ownImg?.src) logo=ownImg.src;
-    // Visuel d'identification provisoire quand le véritable logo n'est pas renseigné.
-    if(!logo){
-      const initials=name.split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase();
-      const color=['#1d929c','#0f9733','#d92115','#1a4568','#e37914'][partners.length%5];
-      const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" rx="40" fill="'+color+'"/><text x="40" y="49" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="28" text-anchor="middle">'+initials.replace(/[&<>]/g,'')+'</text></svg>';
-      logo='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-    }
-    partners.push({name,logo});
-  });
+  const partners = [...document.querySelectorAll('#associations [data-assoc-zone="residentes"] .logo-pill')].map(el=>{
+    const name=el.dataset.assocName || el.textContent.trim();
+    const raw=el.style.getPropertyValue('--logo-bg').trim();
+    const logo=raw.replace(/^url\(\s*/i,'').replace(/\s*\)$/,'').trim().replace(/^['"]|['"]$/g,'');
+    return {name,logo:logo.startsWith('assets/png/')?logo:''};
+  }).filter((p,i,a)=>a.findIndex(q=>q.name===p.name)===i);
+  if(!partners.length)return;
   const layer = document.getElementById('heroBubbleLayer');
   if(!layer || window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   let last = -1;
@@ -2152,5 +2208,6 @@ nav .donate-nav-cta:hover span, nav .donate-nav-cta.active span { color:#fff!imp
   else updateGalleryPhotos();
 })();
 </script>
+
 </body>
 </html>
