@@ -1367,7 +1367,20 @@ byId('editor-form').addEventListener('submit',event=>{
   if(type==='banner')currentContent.panels[p].banners[index]=draft;else currentContent.panels[p].partners[index]=draft;
   editing=null;byId('content-editor').close();renderRealPanels(mode);saveContent(mode);
 });
-const REVIEW_EMAIL={to:'coordi@rafael.brussels',cc:'bouhlal.achraf@gmail.com'};
+const REVIEW_EMAIL={to:'social_sociaal@rafael.brussels',cc:'coordi@rafael.brussels,bouhlal.achraf@gmail.com'};
+const REVIEW_WEBSITES={
+  'asbl-0':'https://rafael.brussels',
+  'asbl-1':'https://votreresto.be/ma-broeck',
+  'asbl-2':'https://www.sohab.be',
+  'asbl-3':'https://casi-uo.com/',
+  'asbl-4':'https://lestime.be',
+  'asbl-5':'http://upanderlecht.be',
+  'asbl-6':'https://www.convivial.be',
+  'asbl-7':'https://www.madras-asbl.be',
+  'asbl-8':'https://www.sapham.be',
+  'asbl-9':'https://psybru.be',
+  vsa:'https://rafael.brussels'
+};
 const REVIEW_LIMITS={name:80,title:64,titleNl:64,text0:330,text1:330};
 const REVIEW_FIELDS=[['name','Nom'],['title','Titre français'],['titleNl','Titre néerlandais'],['text0','Texte français'],['text1','Texte néerlandais']];
 const reviewMemory=new Map();
@@ -1387,7 +1400,7 @@ function setReviewValue(item,field,value){
 function newReview(org){
   const items=org.indices.map(index=>({p:org.p,index,name:org.p===0?REAL_ASSOCIATIONS[index].name:PANEL_TOPICS[index].title.replace(/\n/g,' '),record:reviewClone(realContent.panels[org.p].partners[index])}));
   const logo=org.p===0?items[0].record.logo:realContent.panels[1].banners[0].image;
-  return {schema:1,key:org.key,orgName:org.name,step:0,contact:{name:'',email:''},logoChange:!logo,
+  return {schema:1,key:org.key,orgName:org.name,step:0,contact:{name:'',email:''},website:REVIEW_WEBSITES[org.key]||'',websiteOriginal:REVIEW_WEBSITES[org.key]||'',logoChange:!logo,
     logo,
     baseline:reviewClone(items),items,contactValidated:false,logoReviewed:false,textsValidated:false,confirmedAt:null};
 }
@@ -1423,6 +1436,11 @@ async function openReview(key){
     });
   }catch{}
   reviewSession=saved?.schema===1&&saved.key===key&&saved.items?.length===org.indices.length&&saved.baseline?.length===org.indices.length?reviewClone(saved):newReview(org);
+  if(typeof reviewSession.website!=='string'){
+    reviewSession.website=REVIEW_WEBSITES[key]||'';reviewSession.websiteOriginal=reviewSession.website;
+    reviewSession.step=0;reviewSession.contactValidated=false;reviewSession.confirmedAt=null;
+  }
+  if(typeof reviewSession.websiteOriginal!=='string')reviewSession.websiteOriginal=REVIEW_WEBSITES[key]||'';
   reviewSession.step=Math.max(0,Math.min(3,reviewSession.step||0));
   renderReview();byId('validation-modal').showModal();flushReviewSave();
 }
@@ -1462,7 +1480,13 @@ function renderReviewContact(host){
     input.addEventListener('input',()=>{reviewSession.contact[key]=input.value;reviewSession.contactValidated=false;scheduleReviewSave();});
     fields.append(fieldLabel(label,input));
   }
-  host.append(fields);
+  const website=dom('input',{id:'review-contact-website',type:'url',maxlength:2048,autocomplete:'url',placeholder:'https://www.votre-association.be','aria-describedby':'review-website-help'});
+  website.value=reviewSession.website;
+  website.addEventListener('input',()=>{reviewSession.website=website.value;reviewSession.contactValidated=false;scheduleReviewSave();});
+  const field=fieldLabel('Site web ou page de redirection · facultatif',website);
+  const encart=reviewSession.key==='vsa'?'l’encart du Village Sainte-Anne':'l’encart de votre association';
+  field.append(dom('p',{className:'field-help',id:'review-website-help'},'Lorsqu’un bénéficiaire cliquera sur '+encart+' sur le site du Village Sainte-Anne, c’est ce lien qui devra s’ouvrir. Vous pouvez modifier l’adresse préremplie ou la laisser vide si vous ne souhaitez pas de redirection. Ce lien sera repris dans l’email de validation.'));
+  fields.append(field);host.append(fields);
 }
 function renderReviewLogo(host){
   host.append(dom('h3',{},'Veuillez confirmer votre logo'),dom('p',{className:'validation-lead'},reviewSession.orgName));
@@ -1529,13 +1553,26 @@ function renderReview(){
   [renderReviewContact,renderReviewLogo,renderReviewTexts,renderReviewRecap][step](host);
   host.scrollTop=0;
 }
+function normalizeReviewWebsite(value){
+  let url=String(value||'').trim();
+  if(!url)return {valid:true,value:''};
+  if(url.length>2048||/\s/u.test(url))return {valid:false,value:url};
+  if(!/^[a-z][a-z0-9+.-]*:/i.test(url))url=url.startsWith('//')?'https:'+url:'https://'+url;
+  try{
+    const parsed=new URL(url);
+    return {valid:['https:','http:'].includes(parsed.protocol)&&!!parsed.hostname&&!parsed.username&&!parsed.password,value:url};
+  }catch{return {valid:false,value:url};}
+}
 function validateReviewStep(){
   if(reviewSession.step===0){
     const name=reviewSession.contact.name.trim(),email=reviewSession.contact.email.trim();
     if(!name||!/^\S+@[^\s@]+\.[^\s@]+$/.test(email)){
       byId('validation-error').textContent='Indiquez un nom et une adresse email de contact valide.';
       byId(!name?'review-contact-name':'review-contact-email').focus();return false;
-    }reviewSession.contact={name,email};reviewSession.contactValidated=true;
+    }
+    const website=normalizeReviewWebsite(reviewSession.website);
+    if(!website.valid){byId('validation-error').textContent='Indiquez un lien web valide commençant par https:// ou http://, ou laissez le champ vide.';byId('review-contact-website').focus();return false;}
+    reviewSession.contact={name,email};reviewSession.website=website.value;reviewSession.contactValidated=true;
   }
   if(reviewSession.step===1)reviewSession.logoReviewed=true;
   if(reviewSession.step===2){
@@ -1547,9 +1584,18 @@ function validateReviewStep(){
 }
 function reviewMailSubject(){return (reviewSession.key==='vsa'?'Village Sainte-Anne':reviewSession.items[0].name).replace(/[\r\n]+/g,' ').trim();}
 function reviewStrike(value){return Array.from(value).map(c=>/\s/u.test(c)?c:c+'\u0336').join('');}
+function reviewWebsiteChange(){
+  const before=reviewSession.websiteOriginal||'',after=reviewSession.website||'';
+  return {before,after,changed:before!==after,diff:reviewDiff(before,after)};
+}
 function reviewMailText(){
+  const website=reviewWebsiteChange();
   const lines=['Bonjour,','', 'Validation des stickers · '+reviewMailSubject(),'',
     'CONTACT','Nom : '+reviewSession.contact.name,'Email : '+reviewSession.contact.email,'',
+    'LIEN DE REDIRECTION — '+(website.changed?'MODIFIÉ ET CONFIRMÉ':'VALIDÉ'),
+    'Lien à ouvrir au clic sur l’encart de '+reviewSession.orgName+' :',
+    ...(website.changed?['Lien initial (passages retirés barrés) :',website.before?website.diff.old.map(part=>part.changed?reviewStrike(part.text):part.text).join(''):'Aucun lien renseigné.','Lien confirmé :']:[]),
+    website.after||'Aucun lien renseigné.','',
     'LOGO : '+(reviewSession.logoChange?'À MODIFIER — le bon logo doit être joint à cet email.':'VALIDÉ sans modification.'),'',
     'TEXTES : validés'+(reviewChanges().some(c=>c.fields.some(f=>f.changed))?' avec les modifications ci-dessous.':' sans modification.'),''];
   for(const {item,fields} of reviewChanges()){
@@ -1568,6 +1614,11 @@ const reviewEscape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 function reviewMailHtml(){
   let html='<html><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;color:#19334e;font-size:14px;line-height:1.5"><h1 style="font-size:22px">Validation · '+reviewEscape(reviewMailSubject())+'</h1><p><b>Contact :</b> '+reviewEscape(reviewSession.contact.name)+' · '+reviewEscape(reviewSession.contact.email)+'</p><p><b>Logo :</b> '+(reviewSession.logoChange?'À modifier. Merci de joindre le bon logo.':'Validé sans modification.')+'</p><p><b>Textes :</b> validés, avec le détail ci-dessous.</p>';
   const segmentHtml=(parts,tag)=>parts.map(p=>p.changed?'<'+tag+' style="'+(tag==='del'?'text-decoration:line-through;color:#9e3d36;background:#fff0ed':'text-decoration:none;color:#215f3c;background:#e9f6ee;font-weight:bold')+'">'+reviewEscape(p.text)+'</'+tag+'>':reviewEscape(p.text)).join('');
+  const website=reviewWebsiteChange();
+  html+='<h2 style="font-size:18px">Lien de redirection · '+(website.changed?'Modifié et confirmé':'Validé sans modification')+'</h2><p>Page à ouvrir au clic sur l’encart de '+reviewEscape(reviewSession.orgName)+'.</p>';
+  if(website.changed)html+='<p><b>Lien initial :</b> '+(website.before?segmentHtml(website.diff.old,'del'):'Aucun lien renseigné.')+'</p>';
+  const safeWebsite=normalizeReviewWebsite(website.after);
+  html+='<p><b>Lien confirmé :</b> '+(safeWebsite.valid&&safeWebsite.value?'<a href="'+reviewEscape(safeWebsite.value)+'">'+reviewEscape(website.after)+'</a>':reviewEscape(website.after||'Aucun lien renseigné.'))+'</p>';
   for(const {item,fields} of reviewChanges()){
     html+='<h2 style="font-size:18px">'+reviewEscape(item.name)+'</h2>';
     for(const f of fields){html+='<h3 style="font-size:14px">'+reviewEscape(f.label)+' · '+(f.changed?'Modifié et confirmé':'Validé sans modification')+'</h3>';
